@@ -13,4 +13,6 @@ https://onlinelibrary.wiley.com/doi/10.1155/2021/7216795
 https://github.com/yahsiuhsieh/dqn-dense-traffic/blob/main/README.md
 https://github.com/jeantirole/ReinforcementLearning_Scheduling/blob/main/README.md
 
+https://github.com/Salman1804102/Task-Scheduling-Using-Reinforcement-Learning-and-DQN/blob/main/cloud_scheduling_DQN.ipynb
+
 
