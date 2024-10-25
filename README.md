@@ -29,3 +29,5 @@ https://github.com/Livioni/Cloud-Workflow-Scheduling-base-on-Deep-Reinforcement-
 
 
 https://github.com/FC-Li/CloudSimPy/blob/master/README.md
+
+https://github.com/fareskhlifi/Intelligent-Scheduling-using-Reinforcement-learning-and-Deep-Q-Networks/blob/main/Intelligent_Scheduling_in_Wake_up_Radio_Systems.ipynb
