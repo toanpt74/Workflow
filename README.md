@@ -22,4 +22,6 @@ https://github.com/binqi-sun/egs/blob/main/README.md
 
 https://github.com/nathangrinsztajn/RL_for_dynamic_scheduling/blob/master/readme.md
 
+https://github.com/nathangrinsztajn/RL_for_dynamic_scheduling/blob/master/readme.md
+
 
