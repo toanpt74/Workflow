@@ -35,3 +35,5 @@ https://github.com/fareskhlifi/Intelligent-Scheduling-using-Reinforcement-learni
 https://github.com/ArkS0001/CloudSim-QWhale-SARSAWhale-Hybrid-Optimization/blob/main/README.md
 
 https://github.com/Shahid-Mohammed-Shaikbepari/Deep-Reinforcement-Learning-for-cloud/blob/master/README.md 
+
+Tài liệu DRL: https://github.com/wangshusen/DRL/blob/master/README.md 
