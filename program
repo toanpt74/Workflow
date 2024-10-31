@@ -43,3 +43,1225 @@ def plot_learning_curve(x, scores, figure_file):
 
 def score(path_file):
     pass
+///////////////=====================================================Tệp tin trainer.py
+import torch
+import torch.nn.functional as F
+import torch.optim as optim
+import numpy as np
+
+from job_env import job_shop_env
+from agent import Agent, ActorCritic
+from utils import v_wrap, plot_learning_curve
+import csv
+
+
+def train1(args):
+    torch.manual_seed(args.seed)
+
+    env = job_shop_env()
+
+    model = ActorCritic(env.state_dim, env.action_dim)
+
+    optimizer = optim.Adam(model.parameters(), lr=args.lr)
+
+    model.train()
+
+    state = env.reset()
+    state = v_wrap(state)
+    done = True
+    action_dim = env.expert
+
+    figure_file = './jss_a2c.png'
+
+    episode_length = 0
+    t_total_time = 0
+    complete_jobs = []
+    expert_complete_job = []
+    complete_job_start_time = []
+    update_list = []
+    score_history = []
+    for episode in range(args.episode):
+        if done:
+            cx = torch.zeros(1, 256)
+            hx = torch.zeros(1, 256)
+        else:
+            cx = cx.detach()
+            hx = hx.detach()
+        if len(complete_jobs) != 0:
+            update_list = [n for m in complete_jobs for n in m]
+            env.update(update_list)
+
+        values = []
+        log_probs = []
+        rewards = []
+        entropies = []
+
+        for step in range(args.num_steps + 1):
+            episode_length += 1
+
+            action, log_prob, entropy, value = model.choose_action((state, (hx, cx)), action_dim)
+
+            log_prob = log_prob.gather(1, action)[0]
+
+            state, reward, done, done_job, done_expert, job_start_time, total_time = env.step(action.view(-1, ).numpy())
+            t_total_time += total_time
+
+            done = done or episode_length >= args.max_episode_length
+            ## reward shaping
+            reward = max(min(reward, 1), -1)
+            if episode_length % 20 == 0:
+                print('reward: ', reward, 'total time: ', total_time)
+                score_history.append(reward)
+                # print(done_job)
+
+            if done:
+                complete_jobs.append(done_job)
+                expert_complete_job.append(done_expert)
+                complete_job_start_time.append(job_start_time)
+                print('Current episode:', episode)
+                episode_length = 0
+                state = env.reset()
+
+            state = v_wrap(state)
+            values.append(value)
+            log_probs.append(log_prob)
+            rewards.append(reward)
+            entropies.append(entropy)
+            if done:
+                break
+
+        if len(list(set(update_list))) > 8800:
+            ## write results into the csv file
+            with open('submit_{}.csv'.format(len(list(set(update_list)))), 'w') as f:
+                writer = csv.writer(f)
+                for i in range(len(complete_jobs)):
+                    for j in range(len(complete_jobs[i])):
+                        writer.writerow(
+                            [complete_jobs[i][j] + 1, expert_complete_job[i][j] + 1, complete_job_start_time[i][j]])
+
+        if episode == args.episode - 1 or len(list(set(update_list))) == 8840:
+            model.save_checkpoint()
+            ## write results into the csv file
+            with open('submit.csv', 'w') as f:
+                writer = csv.writer(f)
+                for i in range(len(complete_jobs)):
+                    for j in range(len(complete_jobs[i])):
+                        writer.writerow(
+                            [complete_jobs[i][j] + 1, expert_complete_job[i][j] + 1, complete_job_start_time[i][j]])
+            break
+
+        R = torch.zeros(1, 1)
+        if not done:
+            value, _, _ = model((state.unsqueeze(0), (hx, cx)))
+            R = value.detach()
+
+        values.append(R)
+        policy_loss = 0
+        value_loss = 0
+        gae = torch.zeros(1, 1)
+        for i in reversed(range(len(rewards))):
+            R = args.gamma * R + rewards[i]
+            advantage = R - values[i]
+            value_loss = value_loss + 0.5 * advantage.pow(2)
+
+            # Generalized Advantage Estimation
+            delta_t = rewards[i] + args.gamma * \
+                      values[i + 1] - values[i]
+            gae = gae * args.gamma * args.gae_lambda + delta_t
+
+            policy_loss = policy_loss - \
+                          log_probs[i] * gae.detach() - args.entropy_coef * entropies[i]
+
+        optimizer.zero_grad()
+
+        (policy_loss + args.value_loss_coef * value_loss).backward(torch.ones_like(policy_loss))
+        torch.nn.utils.clip_grad_norm_(model.parameters(), args.max_grad_norm)
+
+        optimizer.step()
+        # print(policy_loss.mean() + args.value_loss_coef * value_loss)
+        print('para updated')
+    x = [i + 1 for i in range(len(score_history))]
+    plot_learning_curve(x, score_history, figure_file)
+
+# score_history = []
+def train(args):
+
+    torch.manual_seed(args.seed)
+
+    torch.cuda.set_device(0)
+
+    env = job_shop_env()
+
+    batch_size = 2
+    n_epochs = 4
+    alpha = 0.0003
+    beta = 0.001
+    model = Agent(n_actions=env.action_dim, batch_size=batch_size,
+                    alpha=alpha, n_epochs=n_epochs,
+                    input_dims=env.state_dim, beta=beta)
+
+    figure_file = './jss_ppo.png'
+
+
+    state = env.reset()
+    done = True
+    action_dim = env.expert
+
+    episode_length = 0
+    t_reward = 0.0
+    total_time = 0
+
+    complete_jobs = []
+    expert_complete_job = []
+    complete_job_start_time = []
+    update_list = []
+    score_history = []
+    time_history = []
+    values = []
+    log_probs = []
+    rewards = []
+    for episode in range(args.episode):
+        state = env.reset()
+        state = v_wrap(state)
+        if len(complete_jobs) != 0:
+            update_list = [n for m in complete_jobs for n in m]
+            env.update(update_list)
+
+        for step in range(args.num_steps + 1):
+
+            episode_length += 1
+
+            action, prob, value = model.choose_action(state, action_dim)
+            action = action.to('cuda')
+            prob = prob.gather(1, action)[0]
+
+
+
+            state, reward, done, done_job, done_expert, job_start_time, total_time = env.step(action.cpu().view(-1,).numpy())
+
+            done = done or episode_length >= args.max_episode_length
+            ## reward shaping
+            t_reward = max(min(reward, 1), -1)
+            total_time += total_time
+            model.remember(state, action, prob, value, t_reward, done)
+
+            if episode_length % 25 == 0:
+                model.learn()
+                print('para update-', t_reward,'total time-', total_time)
+                score_history.append(t_reward)
+                time_history.append(total_time)
+
+                complete_jobs.append(done_job)
+                expert_complete_job.append(done_expert)
+                complete_job_start_time.append(job_start_time)
+                print('Complete these jobs with 100 iterations:')
+                print(complete_jobs)
+
+            values.append(value)
+            log_probs.append(prob)
+            rewards.append(t_reward)
+
+            if done:
+                break
+
+        if len(list(set(update_list))) > 8800:
+            ## write results into the csv file
+            with open('submit_{}.csv'.format(len(list(set(update_list)))), 'w') as f:
+                writer = csv.writer(f)
+                for i in range(len(complete_jobs)):
+                    for j in range(len(complete_jobs[i])):
+                        writer.writerow(
+                            [complete_jobs[i][j] + 1, expert_complete_job[i][j] + 1, complete_job_start_time[i][j]])
+
+        if episode == args.episode - 1 or len(list(set(update_list))) == 8840:
+            ## write results into the csv file
+            with open('submit_ppo.csv', 'w') as f:
+                writer = csv.writer(f)
+                for i in range(len(complete_jobs)):
+                    for j in range(len(complete_jobs[i])):
+                        writer.writerow(
+                            [complete_jobs[i][j] + 1, expert_complete_job[i][j] + 1, complete_job_start_time[i][j]])
+            break
+
+        if t_reward >= 0.55 or episode >= 148:
+            model.save_models()
+        print('episode:', episode, 'reward:', t_reward, 'total time:', total_time)
+
+    x = [i + 1 for i in range(len(score_history))]
+    plot_learning_curve(x, score_history, figure_file)
+
+# print(score_history)
+
+//////////////////////////============================Tệp tin run.py
+import torch
+import argparse
+from trainer import train, train1
+import pandas as pd
+
+parser = argparse.ArgumentParser(description='JSSPRL')
+parser.add_argument('--lr', type=float, default=0.0001,
+                    help='learning rate (default: 0.0001)')
+parser.add_argument('--gamma', type=float, default=0.99,
+                    help='discount factor for rewards (default: 0.99)')
+parser.add_argument('--gae-lambda', type=float, default=1.00,
+                    help='lambda parameter for GAE (default: 1.00)')
+parser.add_argument('--entropy-coef', type=float, default=0.01,
+                    help='entropy term coefficient (default: 0.01)')
+parser.add_argument('--value-loss-coef', type=float, default=0.5,
+                    help='value loss coefficient (default: 0.5)')
+parser.add_argument('--max-grad-norm', type=float, default=50,
+                    help='value loss coefficient (default: 50)')
+parser.add_argument('--seed', type=int, default=1,
+                    help='random seed (default: 1)')
+parser.add_argument('--num-steps', type=int, default=20,
+                    help='number of forward steps in A3C (default: 500)')
+parser.add_argument('--max-episode-length', type=int, default=100,
+                    help='maximum length of an episode (default: 100)')
+parser.add_argument('--episode', type=int, default=2000,
+                    help='How many episode to train the RL algorithm')
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+    print('start training...')
+    #actor-critic
+    train1(args)
+    #ppo
+    # train(args)
+///////////////////////////////===================================Tệp tin job_graph.py
+import heapq
+from collections import deque
+import gym
+import JSSEnv
+import pandas as pd
+
+class DirectedGraph:
+    """
+    Class to implement directed weighted graph
+    - duplicate edges not allowed
+    - loops not allowed
+    - only positive edge weights
+    - vertex names are integers
+    """
+
+    def __init__(self, start_edges, num_jobs, num_machines):
+        """
+        Store graph info as adjacency matrix
+        DO NOT CHANGE THIS METHOD IN ANY WAY
+        """
+        self.num_jobs = num_jobs
+        self.num_machines = num_machines
+        self.v_count = 0
+        self.adj_matrix = []
+
+        # populate graph with initial vertices and edges (if provided)
+        # before using, implement add_vertex() and add_edge() methods
+        if start_edges is not None:
+            v_count = 0
+            for u, v, _ in start_edges:
+                v_count = max(v_count, u, v)
+            for _ in range(v_count + 1):
+                self.add_vertex()
+            for u, v, weight in start_edges:
+                self.add_edge(u, v, weight)
+
+    def __str__(self):
+        """
+        Return content of the graph in human-readable form
+        DO NOT CHANGE THIS METHOD IN ANY WAY
+        """
+        if self.v_count == 0:
+            return 'EMPTY GRAPH\n'
+        out = '   |'
+        out += ' '.join(['{:2}'.format(i) for i in range(self.v_count)]) + '\n'
+        out += '-' * (self.v_count * 3 + 3) + '\n'
+        for i in range(self.v_count):
+            row = self.adj_matrix[i]
+            out += '{:2} |'.format(i)
+            out += ' '.join(['{:2}'.format(w) for w in row]) + '\n'
+        out = f"GRAPH ({self.v_count} vertices):\n{out}"
+        return out
+
+    # ------------------------------------------------------------------ #
+
+    def add_vertex(self) -> int:
+        # Add 1 to the vertex counter.
+        self.v_count += 1
+
+        # If the matrix is empty put an empty list in it.
+        if self.v_count == 1:
+            self.adj_matrix.append([])
+        else:
+            # Add a new list to the matrix and fill it in with 0 according to the amount of verticies.
+            self.adj_matrix.append([0 for num in range(self.v_count - 1)])
+
+        # For every exisiting row, add an extra 0 to the end.
+        for vertex in range(0, self.v_count):
+            self.adj_matrix[vertex].append(0)
+
+        return self.v_count
+
+    def add_edge(self, src: int, dst: int, weight=1) -> None:
+        # Check if the weight is negative, the src and dst are valid, and if the src and dst are the same.
+        # If they are then do nothing, else update the matrix with the weight.
+        if weight < 0:
+            return
+        if src < 0 or src > len(self.adj_matrix) - 1:
+            return
+        if dst < 0 or dst > len(self.adj_matrix) - 1:
+            return
+        if src == dst:
+            return
+
+        self.adj_matrix[src][dst] = weight
+
+    def remove_edge(self, src: int, dst: int) -> None:
+        # Check if the src and dst are valid, and if the src and dst are the same.
+        # If they are then do nothing, else update the matrix with the weight to 0.
+        if src < 0 or src > len(self.adj_matrix) - 1:
+            return
+        if dst < 0 or dst > len(self.adj_matrix) - 1:
+            return
+        if src == dst:
+            return
+
+        self.adj_matrix[src][dst] = 0
+
+    def get_vertices(self) -> []:
+        # return a list with vertices.
+        new_list = []
+        for num in range(self.v_count):
+            new_list.append(num)
+
+        return new_list
+
+    def get_edges(self) -> []:
+        # Iterate through all the matrices and only append to the new list when the element is not 0.
+        new_list = []
+        row = 0
+        for rows in self.adj_matrix:
+            col = 0
+            for elements in rows:
+                if elements != 0:
+                    new_list.append((row, col, elements))
+                col += 1
+            row += 1
+        return new_list
+
+    def is_valid_path(self, path: []) -> bool:
+        # If the path is empty then return True.
+        if path == []:
+            return True
+
+        index = 1
+        for key in path:
+            # If the key is invalid, then return False.
+            if key < 0 or key > len(self.adj_matrix) - 1:
+                return False
+
+            # If We have reached the end, return True.
+            if key == path[len(path) - 1] and index == len(path):
+                return True
+
+            # If the next key is invalid, then return False.
+            next = path[index]
+            if next < 0 or next > len(self.adj_matrix) - 1:
+                return False
+
+            # If there is no weight for the next spot, then return False.
+            if self.adj_matrix[key][next] == 0:
+                return False
+
+            index += 1
+
+    """ The following DFS and BFS are the exact same as the undirected graph, only accounting for the matrix"""
+
+    def dfs_helper(self, curr, end, already):
+        if curr == end:
+            return
+
+        if curr not in already:
+            already.append(curr)
+
+            curr_list = self.adj_matrix[curr]
+            list_size = len(curr_list)
+            for vertex in range(list_size):
+                if self.adj_matrix[curr][vertex] != 0:
+                    self.dfs_helper(vertex, end, already)
+
+    def dfs(self, v_start, v_end=None) -> []:
+        if v_start < 0 or v_start > len(self.adj_matrix) - 1:
+            return []
+
+        visit = []
+        self.dfs_helper(v_start, v_end, visit)
+        return visit
+
+    def bfs(self, v_start, v_end=None) -> []:
+        if v_start < 0 or v_start > len(self.adj_matrix) - 1:
+            return []
+
+        visit = []
+        queue = []
+        final = []
+
+        queue.append(v_start)
+        visit.append(v_start)
+
+        while queue:
+            value = queue.pop(0)
+            final.append(value)
+
+            cur_list = self.adj_matrix[value]
+            list_size = len(cur_list)
+            for vertex in range(list_size):
+                if self.adj_matrix[value][vertex] != 0:
+                    if vertex not in visit:
+                        visit.append(vertex)
+                        queue.append(vertex)
+
+        if v_end is not None:
+            if v_end not in final:
+                return final
+            else:
+                for num in range(len(final) - 1, -1, -1):
+                    if final[num] != v_end:
+                        final.pop()
+                    else:
+                        return final
+        else:
+            return final
+
+    """ 
+    Is the same exact as the undirected graph, but instead of tracking the parent vertex we have a stack to keep 
+    track of the vertices in the recursion. Since the directed graph has directions and cannot loop back.
+
+    """
+
+    def has_cycle_helper(self, curr, track, already):
+        if curr not in already:
+            already.append(curr)
+
+        track.append(curr)
+
+        curr_list = self.adj_matrix[curr]
+        list_size = len(curr_list)
+
+        for num in range(list_size):
+            if self.adj_matrix[curr][num] != 0:
+                if num not in already:
+                    if self.has_cycle_helper(num, track, already):
+                        return True
+                elif num in track:
+                    return True
+
+        track.remove(curr)
+        return False
+
+    def has_cycle(self):
+        visit = []
+        track = []
+        vertices = self.get_vertices()
+
+        for vertex in vertices:
+            if vertex not in visit:
+                if self.has_cycle_helper(vertex, track, visit):
+                    return True
+        return False
+
+    def dijkstra(self, src: int) -> []:
+        # Fill in a list of distanced where every vertices has the work inf and the current source is 0
+        new_list = [float('inf') for vertex in range(len(self.adj_matrix))]
+        new_list[src] = 0
+
+        # Load a heap tuple with (DISTANCE, SOURCE)
+        heap_list = [(0, src)]
+
+        while len(heap_list) > 0:
+            # Pop the tutple and get the distance and the vertex
+            distance, vertex = heapq.heappop(heap_list)
+
+            # If the current distance is less than or equal to the value in the new_list, then check for paths.
+            if distance <= new_list[vertex]:
+
+                # Get the list of adj vertices
+                curr_list = self.adj_matrix[vertex]
+                list_size = len(curr_list)
+
+                # Iterate through adj vertices that have weights.
+                # Add the weight by the current path.
+                for num in range(list_size):
+                    weight = self.adj_matrix[vertex][num]
+                    if weight != 0:
+                        total_distance = distance + weight
+
+                        # If the new updated distance is greater than the distance in new_list update, update it in new_list and push this back into the heap.
+                        # else ignore the update.
+                        if total_distance < new_list[num]:
+                            new_list[num] = total_distance
+                            heapq.heappush(heap_list, (total_distance, num))
+
+        return new_list
+
+    def write_taillard(self):
+        pass
+
+class JobGraph:
+    path = './data/'
+    processing_time = pd.read_csv(path + 'process_time_matrix.csv', header=None).drop([0]).values
+    def __init__(self, num_jobs, num_machines, Graph):
+        self.num_jobs = num_jobs
+        self.num_machines = num_machines
+        self.Graph = Graph
+        self.done = False
+        self.time_index = 0
+        self.total_time = 0
+
+
+
+
+if __name__ == '__main__':
+
+    print("\nPDF - method add_vertex() / add_edge example 1")
+    print("----------------------------------------------")
+    g = DirectedGraph(None, 6, 7)
+    print(g)
+    for _ in range(10):
+        g.add_vertex()
+    print(g)
+
+    edges = [(0, 2, 10), (0, 3, 10), (2,5, 15), (2, 4, 3),
+             (5, 3, 5), (3, 6, 23), (6, 5, 7), (6, 4, 3), (2,7,1),(7,8,4),(7,9,4),(9,8,3)]
+    for src, dst, weight in edges:
+        g.add_edge(src, dst, weight)
+    print(g)
+
+    print("\nPDF - method get_edges() example 1")
+    print("----------------------------------")
+    g = DirectedGraph(None, 6, 7)
+    print(g.get_edges(), g.get_vertices(), sep='\n')
+    edges = [(0, 2, 10), (0, 3, 10), (2, 5, 15), (2, 4, 3),
+             (5, 3, 5), (3, 6, 23), (6, 5, 7), (6, 4, 3), (2, 7, 1), (7, 8, 4), (7, 9, 4), (9, 8, 3)]
+    g = DirectedGraph(edges, 6, 7)
+    print(g.get_edges(), g.get_vertices(), sep='\n')
+
+    # print("\nPDF - method is_valid_path() example 1")
+    # print("--------------------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    # test_cases = [[0, 1, 4, 3], [1, 3, 2, 1], [0, 4], [4, 0], [], [2]]
+    # for path in test_cases:
+    #     print(path, g.is_valid_path(path))
+
+    print("\nPDF - method dfs() and bfs() example 1")
+    print("--------------------------------------")
+    edges = [(0, 2, 10), (0, 3, 10), (2, 5, 15), (2, 4, 3),
+             (5, 3, 5), (3, 6, 23), (6, 5, 7), (6, 4, 3), (2, 7, 1), (7, 8, 4), (7, 9, 4), (9, 8, 3)]
+    g = DirectedGraph(edges, 6, 7)
+    for start in range(10):
+        print(f'{start} DFS:{g.dfs(start)} BFS:{g.bfs(start)}')
+
+    print("\nPDF - method has_cycle() example 1")
+    print("----------------------------------")
+    edges = [(0, 2, 10), (0, 3, 10), (2, 5, 15), (2, 4, 3),
+             (5, 3, 5), (3, 6, 23), (6, 5, 7), (6, 4, 3), (2, 7, 1), (7, 8, 4), (7, 9, 4), (9, 8, 3)]
+    g = DirectedGraph(edges, 6, 7)
+
+    # edges_to_remove = [(3, 1), (4, 0), (3, 2)]
+    # for src, dst in edges_to_remove:
+    #     g.remove_edge(src, dst)
+    #     print(g.get_edges(), g.has_cycle(), sep='\n')
+    #
+    # edges_to_add = [(4, 3), (2, 3), (1, 3), (4, 0)]
+    # for src, dst in edges_to_add:
+    #     g.add_edge(src, dst)
+    #     print(g.get_edges(), g.has_cycle(), sep='\n')
+    # print('\n', g)
+    #
+    # print("\nPDF - dijkstra() example 1")
+    # print("--------------------------")
+    # edges = [(0, 1, 10), (4, 0, 12), (1, 4, 15), (4, 3, 3),
+    #          (3, 1, 5), (2, 1, 23), (3, 2, 7)]
+    # g = DirectedGraph(edges)
+    # for i in range(5):
+    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+    # g.remove_edge(4, 3)
+    # print('\n', g)
+    # for i in range(5):
+    #     print(f'DIJKSTRA {i} {g.dijkstra(i)}')
+
+    # env = gym.make('jss-v1', env_config={'instance_path': 'INSTANCE_PATH'})
+    # obs = gym.spaces.Dict
+////////////////////////////////////==================================Tệp tin job_env.py
+import numpy as np
+import pandas as pd
+import random
+import pickle
+class job_shop_env():
+    path = './data/'
+    expert_job = pd.read_csv(path + 'process_time_matrix.csv', header=None).drop([0]).values
+    job = pd.read_csv(path + 'work_order.csv', header=None).values
+
+    def __init__(self):
+        self.job_cluster = self.expert_job.shape[1]
+        self.expert = self.expert_job.shape[0]
+        self.job_num = self.job.shape[0]
+        self.process_time = self.expert_job
+        self.expert_status = np.repeat(0,self.expert) ## how many jobs an expert is processing
+        self.expert_process_job = [[] for i in range(self.expert)]
+        self.expert_process_time = [[] for i in range(self.expert)]
+        self.job_waiting_time = [[] for i in range(self.expert)]
+        self.left_job = self.job.shape[0]
+        self.done = False
+        self.total_time = 0  ## total process time
+        self.job_distribute_time = np.repeat(0,self.job.shape[0])
+        self.total_job_process_time = np.repeat(0,self.job.shape[0])
+        self.job_status = np.repeat(1,self.job.shape[0])  ## whether a job is under process
+        self.job_index = list(range(self.job.shape[0]))  ## use for sampling
+        self.timeindex = 0   ## use for time recording
+        self.state = np.vstack((self.job_status,self.job_distribute_time))
+        self.state = self.state.reshape(self.state.shape[0],self.state.shape[1],1)
+        self.done_job = [] ## how many jobs have been done
+        self.done_expert = [] ## which expert compelete the job corresponds to done_job list
+        self.job_start_time = [] ## when do the job start to be processed, used in final result generation
+        self.state_dim = self.state.shape[0]
+        self.action_dim = 2
+        self.render = False
+
+    def reset(self):
+        self.job_num = self.job.shape[0]
+        self.expert_status = np.repeat(0, self.expert) ## how many jobs an expert is processing
+        self.expert_process_job = [[] for i in range(self.expert)]
+        self.expert_process_time = [[] for i in range(self.expert)]
+        self.job_waiting_time = [[] for i in range(self.expert)]
+        #self.left_job = self.job.shape[0]
+        self.done = False
+        self.total_time = 0  ## total process time
+        self.job_distribute_time = np.repeat(0,self.job.shape[0])
+        self.total_job_process_time = np.repeat(0,self.job.shape[0])
+        self.job_status = np.repeat(1,self.job.shape[0])  ## whether a job is under process
+        self.job_index = list(range(self.job.shape[0]))  ## use for sampling
+        self.timeindex = 0   ## use for time recording
+        self.state = np.vstack((self.job_status,self.job_distribute_time))
+        self.state = self.state.reshape(self.state.shape[0],self.state.shape[1],1)
+        self.done_job = []
+        self.done_expert = [] ## which expert compelete the job corresponds to done_job list
+        self.job_start_time = [] ## when do the job start to be processed, used in final result generation
+        self.render = False
+        
+        return self.state
+        
+    def step(self, action):
+        # random generate job
+        job_id = np.random.choice(a=self.job_num, size=self.expert, replace=False, p=None)
+        for i in job_id:
+            if len(self.job_index) != 0:
+                if i in self.job_index:
+                    self.job_distribute_time[i] += 1
+                    ## if more than 2, delete this job
+                    # if self.job_distribute_time[i] >= 2:
+                    #    del self.job_index[self.job_index.index(i)]
+                else:
+                    job_id[job_id.tolist().index(i)] = random.sample(self.job_index,1)[0]
+            else:
+                pass
+        
+        assert action.shape[0] == self.expert
+        
+        for i in range(self.expert):
+            ## only process those jobs that are in job_index
+            if job_id[i] in self.job_index:
+                ## action = 0 indicates do not give jobs to the expert
+                if action[i] == 0 or self.expert_status[i] == 3:
+                    pass
+                else:
+                    self.expert_process_job[i].append(job_id[i])
+                    self.expert_status[i] += 1
+                    self.job_status[job_id[i]] = 0
+                    self.expert_process_time[i].append(0)
+                    # how much time a job wait before processing
+                    self.job_waiting_time[i].append(self.timeindex)
+                    # if expert could not handle the job, exit
+                    self.total_job_process_time[job_id[i]] = self.process_time[i][self.job[job_id[i]][2]]
+                
+                delete_index = []
+                for j in range(len(self.expert_process_time[i])):
+                    if len(self.expert_process_job[i]) != 0:
+                        if self.expert_process_time[i][j] == self.process_time[i][self.job[self.expert_process_job[i][j]][2]]:
+                            # if job finished, workload of expert would decrease
+                            self.expert_status[i] -= 1
+                            self.done_expert.append(i)
+                            if self.expert_process_job[i][j] not in self.done_job:
+                                self.left_job -= 1
+                            self.done_job.append(self.expert_process_job[i][j])
+                            ## calculate when the job starts to be processed by subtracting the process time
+                            self.job_start_time.append(self.job_waiting_time[i][j] + self.job[self.expert_process_job[i][j]][1])
+                            delete_index.append(j)
+                if len(delete_index) >- 0:
+                    if len(delete_index) > 1:
+                        delete_index.sort(reverse=True)
+                    for k in delete_index:
+                        del self.expert_process_job[i][k]
+                        del self.expert_process_time[i][k]
+            ## calculate total time consumed
+            self.total_time += sum(self.job_waiting_time[i]) + self.total_job_process_time[i].sum()
+            self.expert_process_time[i] = [m + 1 for m in self.expert_process_time[i]]
+        ## reward takes the minus of total time and left job num
+        # self.reward = - self.total_time
+        # self.total_reward = reward * 0.7 - self.left_job * 0.3
+
+        ##reward takes left job num
+        self.reward = 1 - self.left_job/self.job_num
+        self.timeindex += 1
+        ## update state info
+        self.state = np.vstack((self.job_status,self.job_distribute_time))
+        self.state = self.state.reshape(self.state.shape[0],self.state.shape[1],1)
+        
+        if self.left_job == 0:
+            self.done = True
+        # print(self.total_time)
+
+        return self.state, self.reward, self.done, self.done_job, self.done_expert, self.job_start_time, self.total_time
+
+
+    def update(self,delete_list):
+        if len(delete_list) != 0:
+            for i in delete_list:
+                if i in self.job_index:
+                    self.job_index.remove(i)
+        else:
+            pass
+
+# class job_shop_env():
+#     path = './data/'
+#     expert_job = pd.read_csv(path + 'process_time_matrix.csv', header=None).drop([0]).values
+#     job = pd.read_csv(path + 'work_order.csv', header=None).values
+#
+#     def __init__(self):
+#         self.job_cluster = self.expert_job.shape[1]
+#         self.expert = self.expert_job.shape[0]
+#         self.job_num = self.job.shape[0]
+#         self.process_time = self.expert_job
+#         self.expert_status = np.zeros(self.expert)  # number of jobs each expert is processing
+#         self.expert_process_job = [[] for _ in range(self.expert)]
+#         self.expert_process_time = [[] for _ in range(self.expert)]
+#         self.job_waiting_time = np.zeros(self.job_num)
+#         self.left_job = self.job.shape[0]
+#         self.done = False
+#         self.total_time = 0  # total process time
+#         self.job_distribute_time = np.zeros(self.job.shape[0])
+#         self.total_job_process_time = np.zeros(self.job.shape[0])
+#         self.job_status = np.ones(self.job.shape[0])  # whether a job is under process
+#         self.job_index = list(range(self.job.shape[0]))  # used for sampling
+#         self.timeindex = 0  # used for time recording
+#         self.state = np.vstack((self.job_status, self.job_distribute_time))
+#         self.state = self.state.reshape(self.state.shape[0], self.state.shape[1], 1)
+#         self.done_job = []  # how many jobs have been done
+#         self.done_expert = []  # which expert completed the job corresponds to done_job list
+#         self.job_start_time = []  # when the job starts to be processed, used in final result generation
+#         self.state_dim = self.state.shape[0]
+#         self.action_dim = self.expert
+#
+#     def reset(self):
+#         self.expert_status = np.zeros(self.expert)
+#         self.expert_process_job = [[] for _ in range(self.expert)]
+#         self.expert_process_time = [[] for _ in range(self.expert)]
+#         self.job_waiting_time = np.zeros(self.job_num)
+#         self.left_job = self.job.shape[0]
+#         self.done = False
+#         self.total_time = 0
+#         self.job_distribute_time = np.zeros(self.job.shape[0])
+#         self.total_job_process_time = np.zeros(self.job.shape[0])
+#         self.job_status = np.ones(self.job.shape[0])
+#         self.job_index = list(range(self.job.shape[0]))
+#         self.state = np.vstack((self.job_status, self.job_distribute_time))
+#         self.state = self.state.reshape(self.state.shape[0], self.state.shape[1], 1)
+#         self.done_job = []
+#         self.done_expert = []
+#         self.job_start_time = []
+#
+#         return self.state
+#
+#     def step(self, action):
+#         job_id = np.random.choice(a=self.job_index, size=min(len(self.job_index), self.expert), replace=False)
+#
+#         for i, j_id in enumerate(job_id):
+#             if self.expert_status[i] < 3 and self.job_status[j_id] == 1:
+#                 if action[i] == 1:
+#                     self.expert_process_job[i].append(j_id)
+#                     self.expert_status[i] += 1
+#                     self.job_status[j_id] = 0
+#                     self.expert_process_time[i].append(0)
+#                     self.job_distribute_time[j_id] = self.timeindex
+#                     self.total_job_process_time[j_id] = self.process_time[i][self.job[j_id][2]]
+#
+#         delete_index = []
+#         for i in range(self.expert):
+#             for j, time in enumerate(self.expert_process_time[i]):
+#                 if time >= self.total_job_process_time[self.expert_process_job[i][j]]:
+#                     self.expert_status[i] -= 1
+#                     self.done_expert.append(i)
+#                     self.done_job.append(self.expert_process_job[i][j])
+#                     self.job_start_time.append(self.job_distribute_time[self.expert_process_job[i][j]])
+#                     delete_index.append((i, j))
+#
+#         for i, j in delete_index:
+#             self.expert_process_job[i].pop(j)
+#             self.expert_process_time[i].pop(j)
+#
+#         self.total_time += 1
+#         self.expert_process_time = [list(map(lambda x: x + 1, times)) for times in self.expert_process_time]
+#
+#         reward = 1 - self.left_job / self.job_num
+#         self.timeindex += 1
+#
+#         self.state = np.vstack((self.job_status, self.job_distribute_time))
+#         self.state = self.state.reshape(self.state.shape[0], self.state.shape[1], 1)
+#
+#         if self.left_job == 0:
+#             self.done = True
+#
+#         return self.state, reward, self.done, self.done_job, self.done_expert, self.job_start_time
+#
+#     def update(self, delete_list):
+#         for i in delete_list:
+#             if i in self.job_index:
+#                 self.job_index.remove(i)
+//////////////////////////////////////////////////========================Tệp tin agent.py
+import torch.nn.functional as F
+from utils import normalized_columns_initializer, weights_init
+import numpy as np
+import os
+import torch as T
+import torch.nn as nn
+import torch.optim as optim
+from torch.distributions.categorical import Categorical
+import torch.distributions
+
+
+class ActorCritic(nn.Module):
+    def __init__(self, num_inputs, action_space, chkpt_dir='./A2C'):
+        super(ActorCritic, self).__init__()
+        self.checkpoint_file = os.path.join(chkpt_dir, 'a2c_torch')
+        self.conv1 = nn.Conv2d(num_inputs, 32, 3, stride=2, padding=1)
+        self.conv2 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
+        self.conv3 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
+        self.conv4 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
+
+        self.lstm = nn.LSTMCell(32 * 553, 256)
+
+        num_outputs = action_space
+
+        self.critic_linear = nn.Linear(256, 1)
+        self.actor_linear = nn.Linear(256, num_outputs)
+
+        self.apply(weights_init)
+        self.actor_linear.weight.data = normalized_columns_initializer(
+            self.actor_linear.weight.data, 0.01)
+        self.actor_linear.bias.data.fill_(0)
+        self.critic_linear.weight.data = normalized_columns_initializer(
+            self.critic_linear.weight.data, 1.0)
+        self.critic_linear.bias.data.fill_(0)
+
+        self.lstm.bias_ih.data.fill_(0)
+        self.lstm.bias_hh.data.fill_(0)
+
+        self.train()
+
+    def forward(self, inputs):
+        inputs, (hx, cx) = inputs
+        x = F.relu(self.conv1(inputs))
+        x = F.relu(self.conv2(x))
+        x = F.relu(self.conv3(x))
+        x = F.relu(self.conv4(x))
+
+        x = x.view(-1, 32 * 553)
+        hx, cx = self.lstm(x, (hx, cx))
+        x = hx
+
+        return self.critic_linear(x), self.actor_linear(x), (hx, cx)
+
+    def choose_action(self, inputs, action_dim):
+        s, (hx, cx) = inputs
+        value, logit, (hx, cx) = self.forward((s.unsqueeze(0), (hx, cx)))
+        prob = F.softmax(logit, dim=-1)
+        log_prob = F.log_softmax(logit, dim=-1)
+        entropy = -(log_prob * prob).sum(1, keepdim=True)
+
+        action = []
+        for i in range(action_dim):
+            action.append(prob.multinomial(num_samples=1).detach()[0])
+        action = T.from_numpy(np.array(action, dtype=np.int64).reshape(1, action_dim))
+        return action, log_prob, entropy, value
+
+    def save_checkpoint(self):
+        T.save(self.state_dict(), self.checkpoint_file)
+
+    def load_checkpoint(self):
+        self.load_state_dict(T.load(self.checkpoint_file))
+
+
+class PPOMemory:
+    def __init__(self, batch_size):
+        self.states = []
+        self.probs = []
+        self.vals = []
+        self.actions = []
+        self.rewards = []
+        self.dones = []
+
+        self.batch_size = batch_size
+
+    def generate_batches(self):
+        n_states = len(self.states)
+        batch_start = np.arange(0, n_states, self.batch_size)
+        indices = np.arange(n_states, dtype=np.int64)
+        np.random.shuffle(indices)
+        batches = [indices[i:i + self.batch_size] for i in batch_start]
+
+        states = np.array([state.cpu().numpy() if isinstance(state, T.Tensor) else state for state in self.states])
+        actions = np.array(
+            [action.cpu().numpy() if isinstance(action, T.Tensor) else action for action in self.actions])
+        probs = np.array([prob.cpu().detach().numpy() if isinstance(prob, T.Tensor) else prob for prob in self.probs])
+        vals = np.array([val.cpu().detach().numpy() if isinstance(val, T.Tensor) else val for val in self.vals])
+        rewards = np.array(self.rewards)
+        dones = np.array(self.dones)
+
+        return states, actions, probs, vals, rewards, dones, batches
+        # return np.array(self.states), \
+        #     np.array(self.actions), \
+        #     np.array(self.probs), \
+        #     np.array(self.vals), \
+        #     np.array(self.rewards), \
+        #     np.array(self.dones), \
+        #     batches
+
+    def store_memory(self, state, action, probs, vals, reward, done):
+        self.states.append(state)
+        self.actions.append(action)
+        self.probs.append(probs)
+        self.vals.append(vals)
+        self.rewards.append(reward)
+        self.dones.append(done)
+
+    def clear_memory(self):
+        self.states = []
+        self.probs = []
+        self.actions = []
+        self.rewards = []
+        self.dones = []
+        self.vals = []
+
+
+class ActorNetwork(nn.Module):
+    def __init__(self, n_actions, input_dims, alpha, chkpt_dir='./PPO'):
+        super(ActorNetwork, self).__init__()
+        self.checkpoint_file = os.path.join(chkpt_dir, 'actor_torch_ppo')
+
+        # input_dims = int(input_dims / 2)
+        self.conv1 = nn.Conv2d(input_dims, 32, 3, stride=2, padding=1)
+        self.conv2 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
+        self.conv3 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
+        self.conv4 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
+
+        self.fc1 = nn.Linear(32 * 553, 256)
+        self.fc2 = nn.Linear(256, n_actions)
+        self.relu = nn.ReLU()
+        # self.softmax = nn.Softmax(dim=-1)
+
+        self.apply(weights_init)
+        self.fc2.weight.data = normalized_columns_initializer(
+            self.fc2.weight.data, 0.01)
+        self.fc2.bias.data.fill_(0)
+
+        self.optimizer = optim.Adam(self.parameters(), lr=alpha)
+        self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
+        self.to(self.device)
+
+    def forward(self, state):
+        x = F.relu(self.conv1(state))
+        x = F.relu(self.conv2(x))
+        x = F.relu(self.conv3(x))
+        x = F.relu(self.conv4(x))
+
+        x = x.view(-1, 32 * 553)
+
+        x = F.relu(self.fc1(x))
+        dist = F.relu(self.fc2(x))
+        # dist = self.softmax(x)
+
+        # dist = Categorical(dist)
+        return dist
+
+    def save_checkpoint(self):
+        T.save(self.state_dict(), self.checkpoint_file)
+
+    def load_checkpoint(self):
+        self.load_state_dict(T.load(self.checkpoint_file))
+
+
+class CriticNetwork(nn.Module):
+    def __init__(self, input_dims, beta, chkpt_dir='./PPO'):
+        super(CriticNetwork, self).__init__()
+        # self.flatten = nn.Flatten()
+        self.checkpoint_file = os.path.join(chkpt_dir, 'critic_torch_ppo')
+
+        self.conv1 = nn.Conv2d(input_dims, 32, 3, stride=2, padding=1)
+        self.conv2 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
+        self.conv3 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
+        self.conv4 = nn.Conv2d(32, 32, 3, stride=2, padding=1)
+
+        self.fc1 = nn.Linear(32 * 553, 256)
+        self.fc2 = nn.Linear(256, 1)
+
+        self.apply(weights_init)
+        self.fc2.weight.data = normalized_columns_initializer(
+            self.fc2.weight.data, 0.01)
+        self.fc2.bias.data.fill_(0)
+
+        self.optimizer = optim.Adam(self.parameters(), lr=beta)
+        self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
+        self.to(self.device)
+
+    def forward(self, state):
+        x = F.relu(self.conv1(state))
+        x = F.relu(self.conv2(x))
+        x = F.relu(self.conv3(x))
+        x = F.relu(self.conv4(x))
+
+        x = x.view(-1, 32 * 553)
+
+        x = F.relu(self.fc1(x))
+        value = self.fc2(x)
+
+        return value
+
+    def save_checkpoint(self):
+        T.save(self.state_dict(), self.checkpoint_file)
+
+    def load_checkpoint(self):
+        self.load_state_dict(T.load(self.checkpoint_file))
+
+
+class Agent:
+    def __init__(self, n_actions, input_dims, gamma=0.99, alpha=0.0003, gae_lambda=0.95,
+                 policy_clip=0.2, batch_size=32, n_epochs=4, beta=0.01):
+        self.gamma = gamma
+        self.policy_clip = policy_clip
+        self.n_epochs = n_epochs
+        self.gae_lambda = gae_lambda
+
+        self.actor = ActorNetwork(n_actions, input_dims, alpha)
+        self.critic = CriticNetwork(input_dims, beta)
+        self.memory = PPOMemory(batch_size)
+
+    def remember(self, state, action, probs, vals, reward, done):
+        self.memory.store_memory(state, action, probs, vals, reward, done)
+
+    def save_models(self):
+        print('... saving models ...')
+        self.actor.save_checkpoint()
+        self.critic.save_checkpoint()
+
+    def load_models(self):
+        print('... loading models ...')
+        self.actor.load_checkpoint()
+        self.critic.load_checkpoint()
+
+    # def choose_action(self, observation, action_dim):
+    #     state = T.tensor(observation, dtype=T.float).to(self.actor.device)
+    #     dist = self.actor.forward(state)
+    #     value = self.critic.forward(state)
+    #     action = dist.sample()
+    #
+    #     print(action)
+    #     tensor = dist.log_prob(action)
+    #     print(tensor)
+    #     tensor_mean = tensor.float().mean().unsqueeze(0)
+    #     action_mean = action.float().mean().unsqueeze(0)
+    #     value_mean = value.float().mean().unsqueeze(0)
+    #
+    #     probs = T.squeeze(tensor_mean).item()
+    #
+    #     print(probs)
+    #     action = T.squeeze(action_mean).item()
+    #     print(action)
+    #     value = T.squeeze(value_mean).item()
+    #
+    #     return action, probs, value
+    def choose_action(self, inputs, action_dim):
+        s = T.tensor(inputs, dtype=T.float).to(self.actor.device)
+        value = self.critic.forward(s)
+        logit = self.actor.forward(s)
+        prob = F.softmax(logit, dim=-1)
+        log_prob = F.log_softmax(logit, dim=-1)
+
+        # entropy = -(log_prob * prob).sum(1, keepdim=True)
+
+        action = []
+        for i in range(action_dim):
+            action.append(prob.multinomial(num_samples=1).detach()[0])
+        action = [t.cpu() for t in action]
+        action = T.from_numpy(np.array(action, dtype=np.int64).reshape(1, action_dim))
+        value = T.squeeze(value).item()
+        return action, log_prob, value
+
+    def learn(self):
+        state_arr, action_arr, old_prob_arr, vals_arr, \
+            reward_arr, dones_arr, batches = \
+            self.memory.generate_batches()
+
+        values = vals_arr
+        advantage = np.zeros(len(reward_arr), dtype=np.float32)
+        for t in range(len(reward_arr) - 1):
+            discount = 1
+            a_t = 0
+            for k in range(t, len(reward_arr) - 1):
+                a_t += discount * (reward_arr[k] + self.gamma * values[k + 1] *
+                                   (1 - int(dones_arr[k])) - values[k])
+                discount *= self.gamma * self.gae_lambda
+            advantage[t] = a_t
+
+        advantage = T.tensor(advantage).to(self.actor.device)
+        values = T.tensor(values).to(self.actor.device)
+
+        for _ in range(self.n_epochs):
+
+            for batch in batches:
+                states = T.tensor(state_arr[batch], dtype=T.float).to(self.actor.device)
+                old_probs = T.tensor(old_prob_arr[batch]).to(self.actor.device)
+
+                actions = T.tensor(action_arr[batch]).to(self.actor.device)
+                actions = actions.squeeze(1)
+
+                dist = self.actor.forward(states)
+                critic_value = self.critic.forward(states)
+
+                critic_value = T.squeeze(critic_value)
+
+                new_probs = dist.gather(1, actions)[0]
+
+                # prob_ratio = new_probs.exp() / old_probs.exp()
+                prob_ratio = (new_probs - old_probs).exp()
+                weighted_probs = advantage[batch].view(-1, 1) * prob_ratio
+                weighted_clipped_probs = T.clamp(prob_ratio, 1 - self.policy_clip,
+                                                 1 + self.policy_clip) * advantage[batch].view(-1, 1)
+                actor_loss = -T.min(weighted_probs, weighted_clipped_probs).mean()
+
+                returns = advantage[batch].view(-1, 1) + values[batch]
+                critic_loss = (returns - critic_value) ** 2
+                critic_loss = critic_loss.mean()
+
+                total_loss = actor_loss + 0.5 * critic_loss
+                self.actor.optimizer.zero_grad()
+                self.critic.optimizer.zero_grad()
+                total_loss.backward()
+                self.actor.optimizer.step()
+                self.critic.optimizer.step()
+
+        self.memory.clear_memory()
+
+
+
+
+
