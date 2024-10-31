@@ -1,0 +1,52 @@
+## I. Run chương trình
+actor-critic: 0.9855
+ppo: 0.51
+## II. Mô tả bài toán
+### 1. Mô tả các khái niệm
+- Mục tiêu bài toán là điều phối công việc để tối ưu hiệu quả làm việc của hệ thống. Cụ thể có $$i$$ máy, mỗi máy xử lý   
+1 công việc riêng, có khoảng $$j$$ nhiệm vụ, mỗi nhiêm vụ sẽ được phân vào 1 loại vấn đề. Sự phù hợp giữa 
+loại máy móc ứng với phân loại nhiệm vụ sẽ trực tiếp ảnh hưởng đến thời gian xử lý của máy đó.
+- Có 3 thời điểm trong xử lý 1 nhiệm vụ: thời gian tạo nhiệm vụ                                                             -> thời gian bắt đầu xử lý -> thời gian kết thúc xử lý,
+trong đó thời gian từ khi nhiệm vụ được tạo đến khi bắt đầu xử lý được gọi là thời gian phản hồi, thời gan bắt đầu xử lý đến khi
+hoàn thành gọi là thời gian xử lý
+- **Tổng tời gian dừng của nhiệm vụ** = thời gian phản hồi + thời gian xử lý = thời gian kết thúc xử lý- thời gian tạo nhiệm vụ
+- Tuy nhiên, mỗi loại nhiệm vụ có giới hạn thời gian phản hồi **T**, tức là nhiệm vụ cần được bắt đầu trong thời gian **T** sau khi tạo
+- Một nhiệm vụ có thể phân phối cho máy khác để xử lý.
+### 2. Mô tả điều kiện rằng buộc
+
+- Mỗi máy không được xử lý quá 3 nhiệm vụ cùng lúc, nghĩa là 1 máy khi đang xử lý 3 công việc 
+thì không được phân phối nhiệm vụ mới cho máy đó
+- Toàn bộ quá trình phân phối sử dụng đơn vị thời gian phút là nhỏ nhất
+### 3. Xác định các thành phần
+- State: Trạng thái là kết hợp của trạng thái công việc và thời gian phân bổ công việc
+- Reward: Điểm thưởng được tính theo công thức: R = 1 - M/N. Trong đó M là số lượng nhiệm vụ còn lại và N là tổng số nhiệm vụ
+- Action: Hành động là 1 mảng có kích thước bằng với số lượng máy, lấy giá trị {0, 1}
+### 4.Tiêu chí đánh giá
+
+## III. Mô tả dữ liệu
+Gồm 2 tập dữ liệu: process_time_matrix.csv và work_order.csv
+
+Thời gian bắt đầù tính từ 0h00'
+
+**work_order**: tập dữ liệu này chứa thông tin về các nhiệm vụ, bao gồm các trường sau:
+
+- Task ID: mã định danh của nhiệm vụ
+- Task Generation Time: thời gian tạo nhiệm vụ, định dạng là phút
+- Issue Category ID: mã phân loại vấn đề của nhiệm vụ
+- Maximum Response Time: thời gian phản hồi tối đa 1 nhiệm vụ
+**process_time_matrix**: tập dữ liệu này chứa thông tin về thời gian xử lý các nhiệm vụ của mỗi máy, trong đó hàng i, cột j
+là thời gian xử lý của máy thứ i cho loại vấn đề j (đơn vị: phút).
+## IV. Mô tả phương pháp
+Gồm 2 hướng tiếp cận: Deep Q-learning và PPO (Proximal Policy Optimization)
+
+### 1. Baseline (Q-learning)
+### 2. PPO:
+
+**2.1 Giới thiệu**
+
+- Trong học tăng cường, có 2 phương pháp chính là: value-based methods và policy-based methods. Trong value-based methods,
+đối tượng chính của mô hình là học từ hàm value. Điều này đạt được thông qua số lần lặp và cập nhật của hàm đó.
+Trong quá trình huấn luyện, actions sẽ chọn hành động theo chính sách epsilon-greedy. Sau khi huấn luyện xong 
+- PPO là 1 phương pháp gradient descend cho các thuật toán tối ưu hóa chính sách. Thuật toán được thực hiện trên 2 luồng song song:
+một luồng giao tiếp với môi trường để thu thập dữ liệu và tính toán ước lượng lợi thế, và 1 luồng thực hiện gradient descend 
+trên mạng chính sách để cập nhật tham số. Diều này giúp tăng cường khả năng mô phỏng và tăng tốc quá trình tối ưu hóa
