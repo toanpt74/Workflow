@@ -44,3 +44,5 @@ Tài liệu hướng dẫn RL cho Scheduling: [https://www.geeksforgeeks.org/opt
 
 (https://github.com/JanNalivaika/Production-Scheduling-with-Reinforcement-Learning-/tree/main/Code)
 
+https://advancedoracademy.medium.com/introduction-to-graph-neural-networks-gnn-in-production-process-optimization-ce4ab1141ec3 
+
