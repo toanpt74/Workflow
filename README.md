@@ -40,5 +40,5 @@ Tài liệu DRL: https://github.com/wangshusen/DRL/blob/master/README.md
 
 Tài liệu job scheduling sử dụng DRL:  https://github.com/Dieguinho1612/Job-Scheduling-Deep-Reinforcement-Learning/blob/main/README.md
 
-Tài liệu hướng dẫn RL cho Scheduling: https://www.geeksforgeeks.org/optimizing-production-scheduling-with-reinforcement-learning/
+Tài liệu hướng dẫn RL cho Scheduling: [https://www.geeksforgeeks.org/optimizing-production-scheduling-with-reinforcement-learning/](https://github.com/JanNalivaika/Production-Scheduling-with-Reinforcement-Learning-/tree/main/Code)
 
