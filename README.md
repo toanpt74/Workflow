@@ -48,3 +48,6 @@ https://advancedoracademy.medium.com/introduction-to-graph-neural-networks-gnn-i
 
 https://github.com/dmksjfl/Job_Shop_Scheduling_Problem_with_Reinforcement_Learning/blob/base/README.md
 
+
+https://github.com/Pabloo22/gnn_scheduler/blob/main/README.md
+
