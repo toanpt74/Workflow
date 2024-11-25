@@ -51,3 +51,5 @@ https://github.com/dmksjfl/Job_Shop_Scheduling_Problem_with_Reinforcement_Learni
 
 https://github.com/Pabloo22/gnn_scheduler/blob/main/README.md
 
+https://developers.google.com/optimization/scheduling/job_shop
+
