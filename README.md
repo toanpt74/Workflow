@@ -53,5 +53,5 @@ https://github.com/Pabloo22/gnn_scheduler/blob/main/README.md
 
 https://developers.google.com/optimization/scheduling/job_shop
 
-https://github.com/FC-Li/CloudSimPy/blob/master/README.en.md
+ 
 
