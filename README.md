@@ -6,6 +6,8 @@ data
 PPO
 A2C
 
+https://github.com/Frag-Ment/RG-RRD/blob/master/RL-RCPSP/Readme.md
+
 https://github.com/MyMirelHub/RL-Modelling/blob/master/Readme.md
 
 
