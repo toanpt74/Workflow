@@ -53,5 +53,7 @@ https://github.com/Pabloo22/gnn_scheduler/blob/main/README.md
 
 https://developers.google.com/optimization/scheduling/job_shop
 
+https://github.com/natnij/scheduling/blob/master/README.md
+
  
 
