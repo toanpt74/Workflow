@@ -1,1 +1,8 @@
-
+Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
++ ma trận kề adjacency matrix
++ ma trận thuộc tính feature matrix
++ ma trận tài nguyên Resource excute
++ runable node index: một list VD: [0, 1, 2]
++ ma trận action_mask = có số chiều bằng số job, đây là ma trận nhị phân biểu diễn số trạng thái job được thực thi
+ action_mask =[1, 1, 1, 0, 0, ...0] (khởi tạo có 3 job được thực thi là job 0, 1, 2)
+ 
