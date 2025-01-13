@@ -1,3 +1,19 @@
+TRẮC NGHIỆM C++
+Câu 1: Giả sử cần khai báo biến Staff_Age để lưu trữ tuổi của nhân viên, hãy chọn kiểu dữ liệu phù hợp nhất cho biến Staff_Age
+A. short int
+B. long
+C. float
+D. double
+Đúng, Đáp án đúng là short int
+Câu 2: Giả sử cần khai báo biến Staff_Gender để lưu trữ giới tính của nhân viên, hãy chọn kiểu dữ liệu phù hợp nhất cho biến Staff_Gender
+A. bool
+B. float
+c. double
+D. string
+Đúng, đáp án đúng là: bool
+
+
+
 Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
 + ma trận kề adjacency matrix
 + ma trận thuộc tính feature matrix
