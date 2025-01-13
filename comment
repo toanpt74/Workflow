@@ -46,8 +46,33 @@ C. 4
 D. 8
 Đúng, đáp án đúng là: 4
 Vì a = 1 = 0000.0000 0000.0001, khi thực hiện phép toán a << 2 thì kết quả sẽ dịch trái 2 bit=> x = 0000.0000 0000.0100 = 4
+Câu 7: Trong c++ xét hàm như sau:
+int thongbao(string u="No Name", int a=21)
+{
+	cout<<"Hello:"<<u<<", age:"<<a;
+    return 0;
+}
+Cách gọi hàm nào đúng?
+A. thongbao("Hai", 25);
+B. thongbao(u="Hai", a=25);
+C. thongbao(25, "Hai");
+D. thongbao('Hai', 25);
+Đúng, đáp án đúng là thongbao("Hai", 25)
+Vì hàm thông báo có hai đối số là u kiểu string và a kiểu int, do vậy khi gọi hàm cần truyền vào đúng số lượng tham số và kiểu dữ liệu của tham số
 
-
+Câu 8: Trong c++ xét hàm như sau:
+int thongbao(string u="No Name", int a=21)
+{
+	cout<<"Hello:"<<u<<", age:"<<a;
+    return 0;
+}
+Cách gọi hàm nào sai?
+A. thongbao("Hai");
+B. thongbao("Hai", 25);
+C. thongbao(25);
+D. thongbao();
+Đúng, đáp án đúng là thongbao(25)
+Vì hàm thông báo có hai đối số là u kiểu string và a kiểu int, do vậy khi gọi hàm cần truyền vào đúng số lượng tham số và kiểu dữ liệu của tham số
 
 
 
