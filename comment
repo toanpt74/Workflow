@@ -74,7 +74,7 @@ D. thongbao();
 Đúng, đáp án đúng là thongbao(25)
 Vì hàm thông báo có hai đối số là u kiểu string và a kiểu int, do vậy khi gọi hàm cần truyền vào đúng số lượng tham số và kiểu dữ liệu của tham số
 
-
+Câu 9: 
 
 
 
