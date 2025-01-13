@@ -11,8 +11,23 @@ B. float
 c. double
 D. string
 Đúng, đáp án đúng là: bool
+Câu 3: Giả sử cần khai báo biến salary_coff để lưu trữ hệ số lương của nhân viên, hãy chọn kiểu dữ liệu phù hợp nhất cho biến salary_coff
+A. float
+B. bool
+c. int
+D. string
+Đúng, đáp án đúng là: float
 
-
+Câu 4: Trong C++ giả sử đã khai báo và khởi tạo các biến a, b, c như sau:
+  int a =32;
+  int b = 33;
+  char c = a+b; 
+ Nếu sử dụng lệnh cout<<c; để hiển thị kết quả, khi đó kết quả hiển thị là gì?
+A. A
+B. 65
+C. 66
+D. Thông báo lỗi
+Câu 5: 
 
 Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
 + ma trận kề adjacency matrix
