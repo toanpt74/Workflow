@@ -5,19 +5,21 @@ B. long
 C. float
 D. double
 Đúng, Đáp án đúng là short int
+vì tuổi là số nguyên dương, do vậy sử dụng kiểu dữ liệu short int là phù hợp nhất
 Câu 2: Giả sử cần khai báo biến Staff_Gender để lưu trữ giới tính của nhân viên, hãy chọn kiểu dữ liệu phù hợp nhất cho biến Staff_Gender
 A. bool
 B. float
 c. double
 D. string
 Đúng, đáp án đúng là: bool
+vì giới tính thường chỉ nhận hai giá trị là Nam hoặc Nữ, do vậy sử dụng kiểu dữ liệu bool là phù hợp nhất
 Câu 3: Giả sử cần khai báo biến salary_coff để lưu trữ hệ số lương của nhân viên, hãy chọn kiểu dữ liệu phù hợp nhất cho biến salary_coff
 A. float
 B. bool
 c. int
 D. string
 Đúng, đáp án đúng là: float
-
+vì hệ số lương là số thực, do vậy sử dụng kiểu dữ liệu float là phù hợp nhất
 Câu 4: Trong C++ giả sử đã khai báo và khởi tạo các biến a, b, c như sau:
   int a =32;
   int b = 33;
@@ -27,7 +29,29 @@ A. A
 B. 65
 C. 66
 D. Thông báo lỗi
-Câu 5: 
+Đúng, đáp án đúng là: A
+Vì a+b = 32+33 = 65. Tuy nhiên biến c được khai báo là kiểu char, do vậy sẽ hiển thị chữ A (có mã Asscii là 65)
+Câu 5: Trong C++ cho biến a = 5.5 và b=1.5. Lệnh nào sai?
+A. a&=b;
+B. a+=b;
+C. a*=b;
+D. a/=b;
+Đúng, đáp án đúng là a&=b 
+Vì phép toán & chỉ thực hiện trên kiểu dữ liệu rời rạc
+Câu 6: Trong C++ cho hai biến kiểu int a và b, với giá trị lần lượt là 1 và 2. Biến nguyên x được gán như sau:
+x = a<<b. Hỏi x có giá trị bằng bao nhiêu?
+A. 1
+B. 2
+C. 4
+D. 8
+Đúng, đáp án đúng là: 4
+Vì a = 1 = 0000.0000 0000.0001, khi thực hiện phép toán a << 2 thì kết quả sẽ dịch trái 2 bit=> x = 0000.0000 0000.0100 = 4
+
+
+
+
+
+
 
 Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
 + ma trận kề adjacency matrix
