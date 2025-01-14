@@ -1,4 +1,6 @@
 TRẮC NGHIỆM C++
+BÀI 2
+===================================================================
 Câu 1: Giả sử cần khai báo biến Staff_Age để lưu trữ tuổi của nhân viên, hãy chọn kiểu dữ liệu phù hợp nhất cho biến Staff_Age
 A. short int
 B. long
@@ -46,6 +48,29 @@ C. 4
 D. 8
 Đúng, đáp án đúng là: 4
 Vì a = 1 = 0000.0000 0000.0001, khi thực hiện phép toán a << 2 thì kết quả sẽ dịch trái 2 bit=> x = 0000.0000 0000.0100 = 4
+
+Câu 7: Trong C++, giả sử đã khai báo biến str là kiểu string, lệnh nào trả về độ dài của xâu str?
+A. str.len()
+B. str.length()
+C. str.size()
+D. len(str)
+Đúng, đáp án đúng là str.size()
+Vì theo ý nghĩa của phương thức size() trong c++
+Câu 8: Trong C++, giả sử đã khai báo và khởi tạo giá trị cho các biến x, y như sau:
+int x = 10;
+int y = 100;
+Biến z có giá trị bằng bao nhiêu? nếu thực hiện phép gán như sau: float z =(float)(x/y);
+A. 0
+B. 10
+C. 0.1
+D. 0.01
+Đúng, đáp án đúng là 0
+Vì khi thực hiện phép chia hai số nguyên, kết quả là một số nguyên. Do vậy z = 0
+
+BÀI 3
+============================================================================================================
+
+
 Câu 7: Trong c++ xét hàm như sau:
 int thongbao(string u="No Name", int a=21)
 {
