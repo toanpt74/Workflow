@@ -158,8 +158,10 @@ C. 57
 Đúng, đáp án đúng là: 45
 Vì chương trình sẽ tính tổng t = 1 + 3 +...+9 = 45
 
+BÀI 5
+===============
 
-Câu 7: Trong c++ xét hàm như sau:
+Câu 1: Trong c++ xét hàm như sau:
 int thongbao(string u="No Name", int a=21)
 {
 	cout<<"Hello:"<<u<<", age:"<<a;
@@ -173,7 +175,7 @@ D. thongbao('Hai', 25);
 Đúng, đáp án đúng là thongbao("Hai", 25)
 Vì hàm thông báo có hai đối số là u kiểu string và a kiểu int, do vậy khi gọi hàm cần truyền vào đúng số lượng tham số và kiểu dữ liệu của tham số
 
-Câu 8: Trong c++ xét hàm như sau:
+Câu 2: Trong c++ xét hàm như sau:
 int thongbao(string u="No Name", int a=21)
 {
 	cout<<"Hello:"<<u<<", age:"<<a;
@@ -187,7 +189,41 @@ D. thongbao();
 Đúng, đáp án đúng là thongbao(25)
 Vì hàm thông báo có hai đối số là u kiểu string và a kiểu int, do vậy khi gọi hàm cần truyền vào đúng số lượng tham số và kiểu dữ liệu của tham số
 
-Câu 9: 
+Câu 3: Trong C++, xét đoạn chương trình sau:
+void modifyValue(int* ptr)
+{ 
+    (*ptr) += 10;
+}
+int main() {
+	int localVar = 5;
+	int* ptr = &localVar;      
+	modifyValue(ptr);        
+  return 0;
+}
+Kết thúc chương trình biến localVar có giá trị bằng bao nhiêu?
+A. 5
+B. 10
+C. 15
+D. 0
+Đúng, đáp án đúng là 15
+Vì hàm modifyValue có đối số là con trỏ và thực hiện tăng giá trị của đối số ptr lên 10 đơn vị, khởi tạo biến localVar có giá trị là 5, do vậy khi kết thúc hàm biến này sẽ tăng thêm 10 đơn vị => localVar = 15.
+Câu 4: Trong C++, xét đoạn chương trình sau:
+void modifyValue(int* ptr)
+{ 
+    (*ptr) += 10;
+}
+int main() {
+	int localVar = 5;
+    	int* ptr = &localVar;      
+    	modifyValue(localVar);        
+  return 0;
+}
+Kết thúc chương trình biến localVar có giá trị bằng bao nhiêu?
+A. 5
+B. 10
+C. 15
+D. Chương trình thông báo lỗi
+Đúng, đáp án đúng là chương trình thông báo lỗi
 
 
 
