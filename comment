@@ -136,7 +136,9 @@ for model, dataloader in zip(all_model, all_dataloader):
 #Để lây thông tin về makespan của toàn bộ các job trong chương trình, thêm lệnh print(all_data_store) vào cuối tệp tin sample_average_makespan
 
 ///////////////////////////////////////////////////////////////////
+feature_mat: là ma trận lưu trữ các thông tin về duration và resource của các job
 
+///////////////////////////////////////////////////////////////////
 Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
 + ma trận kề adjacency matrix
 + ma trận thuộc tính feature matrix
