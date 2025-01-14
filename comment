@@ -78,6 +78,65 @@ Câu 9:
 
 
 
+///////////////////////////////////////////////////////////////////
+Tạo chương trình test cho các luồng công việc cụ thể
+from test_funcs.compute_greedy_makespan import greedy_average_makespan
+from test_funcs.sample_average_makespan import sample_average_makespan
+from My_dataset_info import *
+from MyDataloader import MyDataloader
+from rcpsp_simulator.skip_env import Skip_environment
+import numpy as np
+import time
+
+import os
+import random
+import time
+from Params import args
+from model.actor_critic import Agent
+from rcpsp_simulator.normal_env import Normal_environment
+from rcpsp_simulator.skip_env import Skip_environment
+
+from MyDataloader import MyDataloader
+from My_dataset_info import  *
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.distributions.categorical import Categorical
+from torch.utils.tensorboard import SummaryWriter
+import copy
+from test_funcs.compute_greedy_makespan import greedy_average_makespan
+from tqdm import tqdm
+model_30 = r"D:\RCPSP\RL-RCPSP\saves\set_301160_321736313092.0018058.pt"
+
+model = r"D:\RCPSP\RL-RCPSP\saves\set_301160_321736313092.0018058.pt"
+
+
+dataloader_test_30 = MyDataloader(test_set_30)
+
+
+n_samples = 30
+greedy_test = False
+normal_env = False
+if_variant = False
+
+
+## normal test ###
+all_model = [model_30]
+all_dataloader = [dataloader_test_30]
+
+
+
+for model, dataloader in zip(all_model, all_dataloader):
+    print(model)
+    average_makespan, average_time = sample_average_makespan(model, dataloader, n_sampels=n_samples,
+                                                             normal_env=normal_env, variant=if_variant,
+                                                             greedy_test=greedy_test)
+    print(average_makespan, average_time)
+#Để lây thông tin về makespan của toàn bộ các job trong chương trình, thêm lệnh print(all_data_store) vào cuối tệp tin sample_average_makespan
+
+///////////////////////////////////////////////////////////////////
+
 Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
 + ma trận kề adjacency matrix
 + ma trận thuộc tính feature matrix
