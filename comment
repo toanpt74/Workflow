@@ -224,7 +224,80 @@ B. 10
 C. 15
 D. Chương trình thông báo lỗi
 Đúng, đáp án đúng là chương trình thông báo lỗi
+Vì hàm modifyValue có đối số là con trỏ, khi gọi hàm phải truyền vào là địa chỉ của biến.
 
+Câu 5: Trong C++, xét đoạn chương trình sau:
+int x = 5; 
+void Func()
+{
+	int y = 6;  	 
+}
+int main()
+{
+	int z = 7; 
+}
+Khẳng định nào đúng?
+A. Có thể truy cập được tới biến x và y từ bên trong hàm Func()
+B. Biến x và z là biến tổng thể
+C. Biến x là cục bộ và z là biến tổng thể
+D. Có thể truy cập được tới biến z và y trong hàm main()
+Đúng, đáp án đúng là Có thể truy cập được tới biến x và y từ bên trong hàm Func()
+Vì x là biến tổng thể và y là biến cục bộ của hàm Func(), do vậy có thể truy cập được tới hai biến này trong hàm Func()
+
+Câu 6: Trong C++, xét đoạn chương trình sau:
+int i;
+int main(void) {
+    for(i = 0; i < 1; i++) {
+		int x;
+		cout<< x++;
+    }
+    cout<<x<<endl;
+    cout<<i<<endl;
+    return 0;
+}
+Khẳng định nào đúng?
+A. Chương trình thông báo lỗi do lệnh cout<<x<<endl;
+B. Biến i là biến cục bộ của hàm main()
+C. Chương trình thông báo lỗi do lệnh cout<<i<<endl;
+D. Chương trình thông báo lỗi do lệnh cout<<x trong vòng lặp for
+Đúng, đáp án đúng là: Chương trình thông báo lỗi do lệnh cout<<x<<endl;
+Vì x là biến cục bộ trong vòng lặp for, do vậy không thể truy xuất từ bên ngoài vòng lặp.
+Câu 7: Trong C++, xét đoạn chương trình sau:
+int i;
+void main(void) {
+    for(i = 0; i < 1; i++) {
+		int x=0;		
+		x++;
+    }
+    cout<<"x="<<x<<endl;
+    cout<<"i="<<i<<endl;
+    return 0;
+}
+Khẳng định nào đúng?
+A. Chương trình thông báo lỗi do lệnh cout<<"x="<<x<<endl;
+B. Chương trình in ra x=1, i=1
+C. Không thể truy cập tới biến i bên trong hàm main()
+D. Không thể truy cập biến i bên trong vòng lặp for
+Đúng, đáp án đúng là: Chương trình thông báo lỗi do lệnh cout<<"x="<<x<<endl;
+Vì x là biến cục bộ trong vòng lặp for, do vậy không thể truy xuất từ bên ngoài vòng lặp.
+Câu 8: Trong C++, xét đoạn chương trình sau:
+#include <iostream>
+using namespace std;
+int x = 50;
+int main()
+{   
+    int x = 10;
+    cout <<::x;
+    cout <<x; 
+    return 0;
+}
+Khẳng định nào đúng?
+A. Chương trình in ra giá trị là 5010
+B. Chương trình in ra giá trị 1010
+C. Chương trình thông báo lỗi vì khai báo hai biến cùng tên
+D. Không thể truy cập biến x từ hàm main()
+Đúng, đáp án đúng là: Chương trình in ra giá trị là 5010
+Vì x biến tổng thể có giá trị 50 và một biến x là cục bộ và có giá trị là 10. DO vậy hai lệnh cout sẽ in ra giá trị của hai biến này => in ra 5010
 
 
 ///////////////////////////////////////////////////////////////////
