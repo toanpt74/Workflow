@@ -487,6 +487,12 @@ với các tham số là ma trận kề, ma trận đặc trưng feature, ma tr�
 - Gán thuộc tính: last_decision_time = 0
 - Kết quả trả về của thủ tục reset() là state (state = self.tep(self.adj_mat, self.executor.feature_mat, self.executor.resource_exec, self.executor.runable_nodes_idx, self.executor.now_action_mask))
 
++ list all_ini_states lưu trữ tất cả các trạng thái khởi tạo:  state = self.tep(self.adj_mat, self.executor.feature_mat, self.executor.resource_exec, self.executor.runable_nodes_idx, self.executor.now_action_mask)
++ biến all_next_obs = all_ini_states
++ biến all_ini_states, all_next_obs là một list gồm 8 phần tử, mỗi phần tử chưa một state
++ biến obs là một list gồm 32 phần tử  = num_steps. Mỗi phần tử của obs chứa ma trận all_next_obs(all_ini_states). Lệnh gán obs[step] = copy.deepcopy(all_next_obs) 
+
+
 + ma trận kề adjacency matrix
 + ma trận thuộc tính feature matrix
 + ma trận tài nguyên Resource excute
