@@ -468,8 +468,25 @@ feature_mat: là ma trận lưu trữ các thông tin về duration và resource
 
 ///////////////////////////////////////////////////////////////////
 Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
-+ jobdag: là đồ thị luồng công việc
-jobdag = Jobdag(adj_mat, nodes_information, resource): tạo một đồ thị với ma trận kề, ma trận thuộc tính (chính là ma trận duration của các job trên các resource)
++ jobdag: là đồ thị luồng công việc (jobdag = Jobdag(adj_mat, nodes_information, resource): tạo một đồ thị với ma trận kề, ma trận thuộc tính (chính là ma trận duration của các job trên các resource) )
+
++ Lệnh  env = Normal_environment() tạo ra một đối tượng env gồm các thuộc tính:
+- self.tep = namedtuple('state', ['adj_mat', 'feature_mat', 'resource_exec','runable_nodes_idx', 'action_mask'])
+- ma trận kề: adj_mat được gán là none
+- last_decision_time: thời gian và gán bằng 0.
++ Lệnh ini_state = env.reset(adj, fea, resource, variant) gọi thủ tục reset trong lớp Normal_environment để khởi tạo các giá trị cho biến môi trường env
+với các tham số là ma trận kề, ma trận đặc trưng feature, ma trận tài nguyên resource và ma trận variant.
+ - Tạo ra đồ thị luồng công việc jobdag
+ - Tạo bộ thực thi executor = Normal_executor(jobdag, resource_variant). Bộ executor gồm các thuộc tính cơ bản:
+                           -  đồ thị luồng công việc jobdag
+                           - ma trận kề adj_mat
+                           - ma trận đặc trưng fea_mat
+                           - ma trận tài nguyên resource_execute
+                           - thời gian walltime = 0
+                           - một số thuộc tính khác  
+- Gán thuộc tính: last_decision_time = 0
+- Kết quả trả về của thủ tục reset() là state (state = self.tep(self.adj_mat, self.executor.feature_mat, self.executor.resource_exec, self.executor.runable_nodes_idx, self.executor.now_action_mask))
+
 + ma trận kề adjacency matrix
 + ma trận thuộc tính feature matrix
 + ma trận tài nguyên Resource excute
