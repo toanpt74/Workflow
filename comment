@@ -299,6 +299,112 @@ D. Không thể truy cập biến x từ hàm main()
 Đúng, đáp án đúng là: Chương trình in ra giá trị là 5010
 Vì x biến tổng thể có giá trị 50 và một biến x là cục bộ và có giá trị là 10. DO vậy hai lệnh cout sẽ in ra giá trị của hai biến này => in ra 5010
 
+BÀI 7
+Câu 1: Trong C++, xét đoạn chương trình sau:
+float *p;
+float x=10;
+p = &x;
+float y= *(++p);
+Giá trị của biến y bằng bao nhiêu?
+A. 10
+B. 11
+C. Chương trình thông báo lỗi
+D. y nhận một giá trị ngẫu nhiên
+Đúng, đáp án đúng là: y nhận một giá trị ngẫu nhiên
+Vì con trỏ p trỏ tới biến x, sau đó lệnh y =*(++p) sẽ nhận giá trị của ô nhớ sau biến x, đây là một giá trị ngẫu nhiên
+Câu 2: Trong C++, xét đoạn chương trình sau:
+float *p;
+float x=10;
+p = &x;
+float y= *(p++);
+Giá trị của biến y bằng bao nhiêu?
+A. 10
+B. 11
+C. Chương trình thông báo lỗi
+D. y nhận một giá trị ngẫu nhiên
+Đúng, đáp án đúng là: 10
+Vì con trỏ p trỏ tới biến x, sau đó lệnh y =*(p++) sẽ nhận giá trị của biến x => y =10
+Câu 3: Trong C++, xét đoạn chương trình sau:
+int a[] ={1, 2, 3,4};
+int *ptr = a;
+int t=0;
+for(int i=0; i<sizeof(a)/sizeof(1);i++)
+  	t+=*ptr++;
+Hỏi biến t có giá trị như thế nào?
+A. 10
+B. 9
+C. 11
+D. Chương trình thông báo lỗi
+Đúng, đáp án đúng là: 10
+Vì đây là chương trình tính tổng các phần tử của mảng a => t = 1+2+3+4 = 10
+
+Câu 4: Trong C++, làm thế nào để cấp phát vùng bộ nhớ động cho phép lưu trữ 10 số nguyên?
+A. int arr[10];
+B. int *arr = new int[10];
+C. int *arr = malloc(10*sizeof(int));
+D. int *arr = int[10]
+Đúng, đáp án đúng là int *arr = new int[10];
+Vì theo cú pháp lệnh cấp phát bộ nhớ động trong C++
+Câu 5: Trong C++, khẳng định nào đúng về đoạn chương trình sau:
+#include <iostream>
+using namespace std;
+int main() {
+  int *ptr;
+  ptr = new int;
+  *ptr=7;  
+  delete ptr;  
+  cout<<*ptr;
+  return 0;
+}
+A. Chương trình in ra số 0
+B. Chương trình in ra số 7
+C. Chương trình thông báo lỗi
+D. Chương trình in ra địa chỉ của biến ptr
+Đúng, đáp án đúng là: Chương trình in ra số 0
+Vì lệnh cout<<*ptr đặt sau lệnh delete ptr, do vậy con trỏ này đã bị xóa => *ptr = 0
+Câu 6: Trong C++, xét các lệnh sau:
+int var1 = 5, var2=10;
+  int *p1 = &var1;
+  int *p2 = &var2;
+  *p2 = *p1;
+  cout<< var2;
+Biến var2 có giá trị bằng baoo nhiêu?
+A. 5
+B. 10
+C. 15
+D. 0
+Đúng, đáp án đúng là: 5
+Vì lệnh gán *p2 = *p1 sẽ gán giá trị của biến được trỏ bởi con trỏ p2 bằng giá trị của biến được trỏ bởi con trỏ p1, bằng giá trị của biến var1 => var2 = 5.
+Câu 7: Trong C++, xét đoạn chương trình sau:
+#include <iostream>
+using namespace std;
+int main() {
+  int arr[] ={1,2,3};
+  int *ptr=arr;
+  *(ptr+1) =*(ptr+1)+5;
+  ptr++;
+  *ptr =*(ptr-1) + 5;
+  cout<<arr[0]<<" "<<arr[1]<<" "<<arr[2];
+  return 0;
+}
+Kết quả in ra màn hình là gì?
+A. 1 6 3
+B. 1 7 3
+C. 2 3 7
+D. 1 3 6
+Đúng, đáp án đúng là: 1 6 3
+Vì: con trỏ ptr trỏ tới phần tử đầu tiên của mảng arr, lệnh *(ptr+1) = *(ptr+1) + 5 sẽ thay đổi giá trị của phần tử arr[1] thành 7. Tuy nhiên sau đó lệnh ptr++ sẽ trỏ con trỏ vào phần tử arr[1], và 
+lệnh *ptr =*(ptr-1) + 5; sẽ thay đổi phần tử arr[1] = arr[0] + 5 = 6. Vậy kết quả là 1 6 3.
+Câu 8: Trong C++, xét khai báo sau:
+int *x, y;
+Khẳng định nào đúng
+A. x là con trỏ kiểu int, y là biến kiểu int
+B. x và y là hai con trỏ kiểu int
+C. x là biến kiểu int và y là con trỏ kiểu int
+D. x và y là hai biến kiểu int
+ĐÚng, đáp án đúng là: x là con trỏ kiểu int, y là biến kiểu int
+Vì theo cú pháp khai báo biến và con trỏ trong C++
+
 
 ///////////////////////////////////////////////////////////////////
 Tạo chương trình test cho các luồng công việc cụ thể
