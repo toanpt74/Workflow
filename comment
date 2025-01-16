@@ -468,6 +468,8 @@ feature_mat: là ma trận lưu trữ các thông tin về duration và resource
 
 ///////////////////////////////////////////////////////////////////
 Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
++ jobdag: là đồ thị luồng công việc
+jobdag = Jobdag(adj_mat, nodes_information, resource): tạo một đồ thị với ma trận kề, ma trận thuộc tính (chính là ma trận duration của các job trên các resource)
 + ma trận kề adjacency matrix
 + ma trận thuộc tính feature matrix
 + ma trận tài nguyên Resource excute
