@@ -59,6 +59,14 @@ for model, dataloader in zip(all_model, all_dataloader):
 feature_mat: là ma trận lưu trữ các thông tin về duration và resource của các job
 
 ///////////////////////////////////////////////////////////////////
+1. Tổ chức data trong các tệp tin job
++ job    mode    #sucsessor    sucsessors : lưu trữ số hiệu job, mode, số nút con, danh sách nút con
+    1    1        3            2 3 4
+    2    1        3            6 11 15
+    3    1        3            7 8 13
+
+
+///////////////////////////////////////////////////////////////////
 Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
 + jobdag: là đồ thị luồng công việc (jobdag = Jobdag(adj_mat, nodes_information, resource): tạo một đồ thị với ma trận kề, ma trận thuộc tính (chính là ma trận duration của các job trên các resource) )
 
@@ -68,7 +76,7 @@ Không gian trạng thái state được biểu diễn bởi các đặc trưng 
 - last_decision_time: thời gian và gán bằng 0.
 + Lệnh ini_state = env.reset(adj, fea, resource, variant) gọi thủ tục reset trong lớp Normal_environment để khởi tạo các giá trị cho biến môi trường env
 với các tham số là ma trận kề, ma trận đặc trưng feature, ma trận tài nguyên resource và ma trận variant.
- - Tạo ra đồ thị luồng công việc jobdag
+ - Tạo ra đồ thị luồng công việc jobdag (Ghi chú: đồ thị luồng công việc được tạo ngẫu nhiên với các nút cha con)
  - Tạo bộ thực thi executor = Normal_executor(jobdag, resource_variant). Bộ executor gồm các thuộc tính cơ bản:
                            -  đồ thị luồng công việc jobdag
                            - ma trận kề adj_mat
@@ -96,7 +104,7 @@ với các tham số là ma trận kề, ma trận đặc trưng feature, ma tr�
 + actions: là một tensor gồm 32 hàng, mỗi hàng là 8 cột, lưu các chỉ số node (0,1, 2,...)
 + Vòng lặp thứ 2:  for env_idx in range(args.num_envs):
 - Duyệt từ 0 đến 8. env_idx = 0, 1, 2, ...,8
-- Lấy action từ ma tensor actions: a = copy.deepcopy(actions[step][env_idx].cpu().numpy())
+- Lấy action từ tensor actions: a = copy.deepcopy(actions[step][env_idx].cpu().numpy())
 - Tính các đại lượng next_obs, reward, done = envs[env_idx].step(a)
 + Phương thức step() trong lớp: Normal_environment
 
