@@ -82,7 +82,23 @@ với các tham số là ma trận kề, ma trận đặc trưng feature, ma tr�
 + list all_ini_states lưu trữ tất cả các trạng thái khởi tạo:  state = self.tep(self.adj_mat, self.executor.feature_mat, self.executor.resource_exec, self.executor.runable_nodes_idx, self.executor.now_action_mask)
 + biến all_next_obs = all_ini_states
 + biến all_ini_states, all_next_obs là một list gồm 8 phần tử, mỗi phần tử chưa một state
-+ biến obs là một list gồm 32 phần tử  = num_steps. Mỗi phần tử của obs chứa ma trận all_next_obs(all_ini_states). Lệnh gán obs[step] = copy.deepcopy(all_next_obs) 
++ biến obs là một list gồm 32 phần tử  = num_steps. Mỗi phần tử của obs chứa ma trận all_next_obs / all_ini_states. Lệnh gán obs[step] = copy.deepcopy(all_next_obs) 
++ all_next_obs là một mảng chứa 8 trạng thái state
++ Thủ tục: get_action_and_value(self,
+                state,
+                action = None,
+                greedy_test = False
+                ):
+    - Thông tin truyền vào là trạng thái state
+    - Đầu ra là: action, log_prob, probs.entropy(), value
+    - Xử lý: lấy các thông tin state[0]: ma trận kề, state[1] là ma trận đặc trưng (duration and resource), state[2] là ma trận tài nguyên
+    - runable_nodes_idx: chỉ số các nút thực thi (ngầm định là 0, 1, 2) = 3 nút đầu tiên
++ actions: là một tensor gồm 32 hàng, mỗi hàng là 8 cột, lưu các chỉ số node (0,1, 2,...)
++ Vòng lặp thứ 2:  for env_idx in range(args.num_envs):
+- Duyệt từ 0 đến 8. env_idx = 0, 1, 2, ...,8
+- Lấy action từ ma tensor actions: a = copy.deepcopy(actions[step][env_idx].cpu().numpy())
+- Tính các đại lượng next_obs, reward, done = envs[env_idx].step(a)
++ Phương thức step() trong lớp: Normal_environment
 
 
 + ma trận kề adjacency matrix
