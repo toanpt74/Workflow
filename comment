@@ -64,7 +64,18 @@ feature_mat: là ma trận lưu trữ các thông tin về duration và resource
     1    1        3            2 3 4
     2    1        3            6 11 15
     3    1        3            7 8 13
++ Chú ý: job thực sự chỉ tính từ hàng 1 đến hàng 31. 
 
+2. Tạo jobdag từ tệp tin với các thông tin ma trận feature, ma trận kề, tài nguyên
++ Sau khi đọc xong dữ liệu từ tệp tin, thực hiện xóa hai hàng đầu và hàng cuối
++ XÓa hai cột đầu và cột cuối 
++ Có ma trận kề gồm 30 hàng, 30 cột
++ Mỗi nút trong đồ thị gồm các thông tin chính: new_node = Node(idx, task_duration, resource1, resource2, resource3, resource4)
+    - idx (số thứ tự node): đánh số từ 0
+    - resource của node: gồm 4 resource là resource_1,resource_2,resource_3,resource_4,
+    - duration
++ Sử dụng list là nodes để chứa toàn bộ các nút của đồ thị (gồm 30 nút, từ nút 0 đến nút 29)
++ Mỗi nút ứng với một hàng trong ma trận feature của tệp tin job.sm (từ hàng 1 đến hàng 31)
 
 ///////////////////////////////////////////////////////////////////
 Không gian trạng thái state được biểu diễn bởi các đặc trưng cơ bản:
@@ -87,7 +98,7 @@ với các tham số là ma trận kề, ma trận đặc trưng feature, ma tr�
 - Gán thuộc tính: last_decision_time = 0
 - Kết quả trả về của thủ tục reset() là state (state = self.tep(self.adj_mat, self.executor.feature_mat, self.executor.resource_exec, self.executor.runable_nodes_idx, self.executor.now_action_mask))
 
-+ list all_ini_states lưu trữ tất cả các trạng thái khởi tạo:  state = self.tep(self.adj_mat, self.executor.feature_mat, self.executor.resource_exec, self.executor.runable_nodes_idx, self.executor.now_action_mask)
++ list all_ini_states lưu trữ tất cả các trạng thái khởi tạo (gồm 8 state):  state = self.tep(self.adj_mat, self.executor.feature_mat, self.executor.resource_exec, self.executor.runable_nodes_idx, self.executor.now_action_mask)
 + biến all_next_obs = all_ini_states
 + biến all_ini_states, all_next_obs là một list gồm 8 phần tử, mỗi phần tử chưa một state
 + biến obs là một list gồm 32 phần tử  = num_steps. Mỗi phần tử của obs chứa ma trận all_next_obs / all_ini_states. Lệnh gán obs[step] = copy.deepcopy(all_next_obs) 
