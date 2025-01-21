@@ -7,6 +7,8 @@ PPO
 A2C
 
 
+https://arxiv.org/html/2402.03661v1
+
 https://dm865.github.io/assets/dm865-scheduling-rcpsp-handout.pdf 
 
 https://github.com/Frag-Ment/RG-RRD/blob/master/RL-RCPSP/Readme.md
