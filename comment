@@ -130,3 +130,6 @@ với các tham số là ma trận kề, ma trận đặc trưng feature, ma tr�
 + action = 0, 1, 2,....,30.
 
 
+//=====================================================
+Phương pháp thay đổi cách tính Reward
+1. 
