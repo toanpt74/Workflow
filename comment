@@ -242,3 +242,4 @@ action_sequence= [2, 8, 7, 3, 14, 19, 1, 6, 0, 9, 10, 17, 27, 13, 24, 11, 16, 18
 Phương pháp thay đổi cách tính Reward
 1. Kết hợp duration và resource, 
 2. Reward(node A) = Max Makespan(Child Node of A) + Duration (Node A)
+3. Tính reward theo công thức khuyeech tán (https://viblo.asia/p/diffusion-models-co-ban-phan-1-E1XVOx884Mz)
