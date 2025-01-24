@@ -238,3 +238,4 @@ và running_tasks =[18]
 //=====================================================
 Phương pháp thay đổi cách tính Reward
 1. Kết hợp duration và resource, 
+2. Reward(node A) = Max Makespan(Child Node of A) + Duration (Node A)
