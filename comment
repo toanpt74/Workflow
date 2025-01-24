@@ -221,6 +221,20 @@ và running_tasks =[9, 27]
 + Loại bỏ nút 27 khỏi danh sách runable_nodes_idx
 + Giảm tài nguyên tổng thể
 + Tìm các nút con của nút 27, kiểm tra điều kiện để gán vào danh sách runable_nodes_idx => runable_nodes_idx=[5, 11, 4, 13, 24, 12]
+
+Bước i+1:
++ CHọn action = 18
+=> Gọi thủ tục step(action=18); runable_nodes_idx = [5, 4, 12, 18]
++ Kiểm tra các nút cha của nút 18 xem đã hoàn thành chưa (nút 18 có cha là nút 3, 9, 16). ( hai nút 3 và 9 đã hoàn thành)
+=> Đợi cho đến khi nút 16 hoàn thành (nút 16 có duration = 5 => thời gian walltime = 50 + 5 =55, và last_decision_time=39)
++ Đánh dấu các nút con của nút 16 (completed_parent_nodes[20] = 16, completed_parent_nodes[18] = 16)
++ walltime = 55
++ Gọi thủ tục assign_task(action=18) để gán nút 18 vào thực thi
+=> action_sequence =[2, 8, 7, 3, 14, 19, 1, 6, 0, 9, 10, 17, 27, 13, 24, 11, 16, 18]
+và running_tasks =[18]
++ Loại bỏ nút 18 khỏi danh sách runable_nodes_idx
++ Giảm tài nguyên tổng thể
++ Tìm các nút con của nút 18, kiểm tra điều kiện để gán vào danh sách runable_nodes_idx => runable_nodes_idx=[5, 4, 12, 23]
 //=====================================================
 Phương pháp thay đổi cách tính Reward
 1. Kết hợp duration và resource, 
