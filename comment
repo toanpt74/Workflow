@@ -128,8 +128,37 @@ với các tham số là ma trận kề, ma trận đặc trưng feature, ma tr�
  action_mask =[1, 1, 1, 0, 0, ...0] (khởi tạo có 3 job được thực thi là job 0, 1, 2)
 
 + action = 0, 1, 2,....,30.
-
-
+//////////////////////////////////////////////////////////
+Ví dụ: 
+Bước 1: Chọn nút 2 thực thi
+=> Gọi thủ tục step(action=2)
++ Kiểm tra các nút cha của nút 2 xem đã hoàn thành chưa. Do nút 2 không có nút cha
++ Gọi thủ tục assign_task(action=2) để gán nút 2 vào thực thi
+=> action_sequence =[2]
+và running_tasks =[2]
++ Loại bỏ nút 2 khỏi danh sách runable_nodes_idx
++ Giảm tài nguyên tổng thể
++ Tìm các nút con của nút 2, kiểm tra điều kiện để gán vào danh sách runable_nodes_idx => runable_nodes_idx=[0, 1, 3, 7, 8]
+Bước 2: Chọn nút 8 để thực thi
+=> Gọi thủ tục step(action=8)
++ Kiểm tra nút cha của nút 8 xem đã hoàn thành chưa? (nút 2)
++ Đợi cho đến khi nút 2 hoàn thành => walltime = 6.
++ Gọi thủ tục assign_task(action=8) để gán nút 8 vào thực thi
+=> action_sequence =[2, 8]
+và running_tasks =[8]
++ Loại bỏ nút 8 khỏi danh sách runable_nodes_idx
++ Giảm tài nguyên tổng thể
++ Tìm các nút con của nút 8, kiểm tra điều kiện để gán vào danh sách runable_nodes_idx => runable_nodes_idx=[0, 1, 3, 7, 14]
+Bước 3: Chọn nút 7 để thực thi
+=> Gọi thủ tục step(action=7)
++ Kiểm tra các nút cha của nút 7 xem đã hoàn thành chưa.
+=> Nút cha của 7 là 2 đã hoàn thành, do vậy last_decision_time = 6.
++ Gọi thủ tục assign_task(action=7) để gán nút 7 vào thực thi
+=> action_sequence =[2, 8, 7]
+và running_tasks =[8, 7]
++ Loại bỏ nút 7 khỏi danh sách runable_nodes_idx
++ Giảm tài nguyên tổng thể
++ Tìm các nút con của nút 7, kiểm tra điều kiện để gán vào danh sách runable_nodes_idx => runable_nodes_idx=[0, 1, 3, 14]
 //=====================================================
 Phương pháp thay đổi cách tính Reward
 1. Kết hợp duration và resource, 
