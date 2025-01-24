@@ -235,6 +235,9 @@ và running_tasks =[18]
 + Loại bỏ nút 18 khỏi danh sách runable_nodes_idx
 + Giảm tài nguyên tổng thể
 + Tìm các nút con của nút 18, kiểm tra điều kiện để gán vào danh sách runable_nodes_idx => runable_nodes_idx=[5, 4, 12, 23]
+
+-----------------------------
+action_sequence= [2, 8, 7, 3, 14, 19, 1, 6, 0, 9, 10, 17, 27, 13, 24, 11, 16, 18, 23, 5, 4, 25, 26]
 //=====================================================
 Phương pháp thay đổi cách tính Reward
 1. Kết hợp duration và resource, 
