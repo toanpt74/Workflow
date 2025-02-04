@@ -5,7 +5,9 @@ Baseline_Q
 data
 PPO
 A2C
-
+///////////////////Model Ai theo Diffusion //////////////////////////////////////////
+https://github.com/Project-MONAI/GenerativeModels/blob/main/tutorials/generative/2d_diffusion_autoencoder/2d_diffusion_autoencoder_tutorial.ipynb 
+/////////////////////
 
 https://arxiv.org/html/2402.03661v1
 
