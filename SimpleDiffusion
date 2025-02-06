@@ -475,3 +475,16 @@ for epoch in range(n_epochs):
         optimizer.step()
 
     print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')		
+
+
+x = trainset[0][0]
+x = x.to(device)
+noisy_image = x.unsqueeze(0).cuda()
+a = noisy_image.squeeze(0)
+random_t = torch.rand(noisy_image.shape[0], device=noisy_image.device) * (1. - eps) + eps
+z = torch.randn_like(noisy_image)
+std = marginal_prob_std_fn(random_t) 
+example_noisy_image = noisy_image + z * std[:, None, None, None]
+
+reconstructed_image = model(example_noisy_image, random_t, y)
+reconstructed = reconstructed_image.squeeze(0).cpu()
