@@ -1,10 +1,68 @@
 BÀI 1
 ////////////////////////////////////
-Câu 1: Giả sử cần khai báo biến Staff_Age để lưu trữ tuổi của nhân viên, hãy chọn kiểu dữ liệu phù hợp nhất cho biến Staff_Age
-A. short int
-B. long
-C. float
-D. double
-Đúng, Đáp án đúng là short int
-vì tuổi là số nguyên dương, do vậy sử dụng kiểu dữ liệu short int là phù hợp nhất
+TB 
+////////////////////////////////////////////////////
+Câu 1: Máy tính ENIAC hoạt động dựa trên hệ đếm nào
+A. Hệ thập phân
+B. Hệ nhị phân
+C. Hệ bát phân
+D. Hệ Hexa
+Đúng, đáp án đúng là: Hệ thập phân
+Vì theo các đặc trưng của máy tính ENIAC
+
+Câu 2: Máy tính ENIAC hoạt động với bao nhiêu chu kỳ trong một giấy?
+A. 5000
+B. 10.000
+C. 15.000
+D. 1000
+Đúng, đáp án đúng là: 5000
+Vì theo các đặc trưng của máy tính ENIAC
+
+Câu 3: Trong kiến trúc máy tính IAS, mỗi word gồm bao nhiêu bit?
+A. 40
+B. 32
+C. 18
+D. 16
+Đúng, đáp án đúng là: 40
+Vì theo các đặc trưng của máy tính IAS
+Câu 4: Trong kiến trúc máy tính IBM 7094, mỗi word gồm bao nhiêu bit?
+A. 16
+B. 32
+C. 18
+D. 40
+Đúng, đáp án đúng là: 16
+Vì theo các đặc trưng của máy tính IBM 7094
+
+Câu 5: Máy tính EDVAC hoạt động dựa trên hệ đếm nào
+A. Hệ nhi phân
+B. Hệ thập phân
+C. Hệ bát phân
+D. Hệ Hexa
+Đúng, đáp án đúng là: Hệ nhị phân
+Vì theo các đặc trưng của máy tính EDVAC
+
+Câu 6: Trong kiến trúc máy tính PDP-1 của DEC, mỗi word gồm bao nhiêu bit?
+A. 18
+B. 32
+C. 8
+D. 40
+Đúng, đáp án đúng là: 18
+Vì theo các đặc trưng của máy tính IBM 7094
+Câu 7: Máy tính PDP-8 được sản xuất bởi hãng nào?
+A. DEC
+B. DEL
+C. Intel
+D. Microsoft
+Đúng, đáp án đúng là: DEC
+Vì theo tính chất của máy tính PDP-8
+Câu 8: Trong kiến trúc Omnibus của máy tính PDP-8, bus gồm bao nhiêu đường tín hiệu?
+A. 96
+B. 64
+C. 128
+D. 106
+Đúng, đáp án đúng là: 96
+Vì theo kiến trúc của máy tính PDP-8
+/////////////////////////
+KHÓ
+//////////////////////////////
 
