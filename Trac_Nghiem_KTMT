@@ -1,1 +1,10 @@
+BÀI 1
+////////////////////////////////////
+Câu 1: Giả sử cần khai báo biến Staff_Age để lưu trữ tuổi của nhân viên, hãy chọn kiểu dữ liệu phù hợp nhất cho biến Staff_Age
+A. short int
+B. long
+C. float
+D. double
+Đúng, Đáp án đúng là short int
+vì tuổi là số nguyên dương, do vậy sử dụng kiểu dữ liệu short int là phù hợp nhất
 
