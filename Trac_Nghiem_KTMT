@@ -65,4 +65,30 @@ Vì theo kiến trúc của máy tính PDP-8
 /////////////////////////
 KHÓ
 //////////////////////////////
+Câu 1:
+Cải tiến quan trọng nhất của máy tính IBM Power4 là gì?
+A. Sử dụng công nghệ CPU lõi kép
+B. Sử dụng công nghệ CPU hỗ trợ trí tuệ nhân tạo (AI)
+C. Sử dụng công nghệ Hyper Thread
+D. Sử dụng công nghệ bộ vi xiwr lý song song
+ĐÚng, đáp án đúng là: Sử dụng công nghệ CPU lõi kép
+Vì theo tính chất của máy tính IBM Power4
+Câu 2: Đâu là đặc điểm nổi bật của các máy tính thế hệ IV
+A. Sử dụng công nghệ mạch tích hợp cao VLSI
+B. Sử dụng công nghệ transitor thay cho bóng đèn chân không
+C. Sử dụng các mạch tích hợp nhỏ IC
+D. Sử dụng kiến trúc máy tính gồm ba thành phần chính là CPU, Bộ nhớ và thiết bị ngoại vi
+Đúng, đáp án đúng là: Sử dụng công nghệ mạch tích hợp cao VLSI
+Vì theo đặc trưng của các máy tính thế hệ IV
+Câu 3: Tính chất nào sau đây KHÔNG phải là một đặc điểm của hệ thống cluster computing?
+
+A. Độ trễ thấp (Low Latency)
+B. Tính sẵn sàng cao (High Availability)
+C. Khả năng mở rộng (Scalability)
+D. Tính song song (Parallelism)
+Đúng, đáp án đúng là: Độ trễ thấp (Low Latency)
+Vì theo tính chất của mô hình máy tính phân cụm
+Câu 4: 
+
+
 
