@@ -88,7 +88,12 @@ C. Khả năng mở rộng (Scalability)
 D. Tính song song (Parallelism)
 Đúng, đáp án đúng là: Độ trễ thấp (Low Latency)
 Vì theo tính chất của mô hình máy tính phân cụm
-Câu 4: 
+Câu 4: Đâu là các bộ vi xử lý đầu tiên có sử dụng công nghệ lõi kép (multi-core)
+A. IBM Power4, UltraSPARS IV và Athlon 64X2
+B. Athlon 64X2, UltraSPARS IV và Intel 8088
+C. Intel 80286, IBM Power4 và Athlon 64X2
+D. IBM Power4, Pentium II, và Intel 80286
+
 
 
 
