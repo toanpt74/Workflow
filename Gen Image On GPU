@@ -1,0 +1,51 @@
+private void OnDraw(object o, SignalArgs args)
+{
+   
+    var texturePointer = (IntPtr)args.Args[1];
+    if (texturePointer == IntPtr.Zero) return;
+   
+
+   
+    var renderTargetView = new RenderTargetView(texturePointer);
+    var texture = renderTargetView.Resource.QueryInterface<Texture2D>();           
+    var surface = texture.QueryInterface<Surface>();
+    
+
+    Texture2DDescription description = texture.Description;
+
+    int width = description.Width;
+    int height = description.Height;
+
+   
+    var renderTargetProperties = new SharpDX.Direct2D1.RenderTargetProperties(
+        new PixelFormat(Format.R8G8B8A8_UNorm,AlphaMode.Premultiplied)  );
+
+
+
+    Factory d2dFactory = new Factory();
+
+    using (var d2dRenderTarget = new RenderTarget(d2dFactory, surface,renderTargetProperties))
+    {
+        var brush = new SharpDX.Direct2D1.SolidColorBrush(d2dRenderTarget, new RawColor4(1, 0, 0, 1));
+        d2dRenderTarget.BeginDraw();
+        float margin = 0.1f * Math.Min(width,height);
+        var rect = new SharpDX.RectangleF(margin,margin, width-margin, height-margin);
+        d2dRenderTarget.DrawRectangle(rect, brush, 10.0f);
+
+        var textRect = new SharpDX.Mathematics.Interop.RawRectangleF(10, 10, width, height);
+        var textFormat = new SharpDX.DirectWrite.TextFormat(new SharpDX.DirectWrite.Factory(), "Arial", 100);
+        d2dRenderTarget.DrawText("Hello", textFormat, textRect, brush);
+
+
+
+
+        d2dRenderTarget.EndDraw();
+        d2dRenderTarget.Dispose();
+        brush.Dispose();
+        
+    }
+    d2dFactory.Dispose();
+    surface.Dispose();
+    texture.Dispose();
+       
+}
