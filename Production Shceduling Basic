@@ -33,3 +33,18 @@ When referring to resource requirements in a production schedule, this means any
 This encompasses all the activities and steps required to complete the project. Each step in the production process must be broken down into tasks and the sequence of those tasks defined. It can also include material sourcing, supplier coordination, equipment setup, workflow planning and more.
 3.6 Estimated Production Costs
 Ensure that all production costs are covered, including direct material costs, such as raw materials, direct labor costs, as in wages and manufacturing overhead costs that range from utilities, maintenance and other factory-related expenses. There are also variable costs that fluctuate with production volume and fixed costs that are constant.
+4. How to Make a Production Schedule
+Production schedules vary from one organization to another depending on the production scheduling tools you use, the level of detail you’d like to include and the specific characteristics of your manufacturing process. Having said that, here are five general steps any organization should follow when making a production schedule.
+4. 1. Estimate Customer Demand
+Before you make a realistic production schedule, you’ll need to forecast the future customer demand for your product so you have a better idea of the ideal production volume your organization should manufacture to ensure there’s enough product supply for fulfilling customer orders.
+Various demand planning techniques and business analytics tools can make an accurate sales forecast for your business. Sales forecasts can be made for various time frames such as quarterly, monthly or yearly.
+4.2. Measure Your Production Capacity
+Once you’ve created a sales forecast, you’ll then need to measure your production capacity, which refers to the organizational resources such as raw materials, labor and capital assets that your organization uses to manufacture goods and evaluate whether there are enough resources to meet customer demand and manufacture products on time.
+If this isn’t the case, you should invest in your manufacturing facilities to expand your production capacity. If that’s not possible, try production optimization techniques such as re-thinking your shop floor or balancing the workload of assembly line stations.
+4.3. Make a Production Budget
+Based on your sales forecast and production capacity, you can now make a production budget, which is a document that allows you to estimate the ideal number of units that should be produced to meet customer demand and also maintain optimal product stock inventory levels.
+4.4. Optimize Production Routing
+Production routing consists of defining the route that materials, parts and components will take across the production floor as they’re transformed into final products by production workers. The main objective of the production routing process is to identify the most efficient route in terms of time, effort and cost. By defining the production route, you can also accurately measure how long it’ll take to make your products.
+4.5. Schedule Production Activities
+At this point, you should clearly understand the quantity of product that needs to be manufactured, how much it’ll cost and how long it’ll take. Now, you’re finally ready to schedule production orders to meet the production budget you’ve defined.
+
