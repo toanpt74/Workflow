@@ -1,7 +1,7 @@
 Tham khaor: 
 1. https://www.projectmanager.com/blog/production-scheduling
 2. Assembly Line Scheduling (https://www.geeksforgeeks.org/assembly-line-scheduling-dp-34/)
-
+3. https://www.sciencedirect.com/science/article/pii/S2405896318306360
 Production Scheduling Basics: Creating a Production Schedule
 A production schedule is a plan that helps facilitate the process of delivering products to customers and the marketplace. It’s part of the larger supply chain in manufacturing and includes everything from procurement of raw materials and labor and logistics to the costs involved and a production timeframe.
 Manufacturers need to address production scheduling before they begin the manufacturing process. This might sound obvious, but production scheduling informs the costs involved in producing a product, such as the production itself and labor. Therefore, financial resources must be allocated for every step in your production cycle.
@@ -51,4 +51,9 @@ Based on your sales forecast and production capacity, you can now make a product
 Production routing consists of defining the route that materials, parts and components will take across the production floor as they’re transformed into final products by production workers. The main objective of the production routing process is to identify the most efficient route in terms of time, effort and cost. By defining the production route, you can also accurately measure how long it’ll take to make your products.
 4.5. Schedule Production Activities
 At this point, you should clearly understand the quantity of product that needs to be manufactured, how much it’ll cost and how long it’ll take. Now, you’re finally ready to schedule production orders to meet the production budget you’ve defined.
+
+//////////////////////////////////////////////////////////////////////////////////////
+Manufacturing scheduling is the process of optimizing the utilization of all available manufacturing resources including staffing, machinery, inventories, work-in-process (WIP), and the associated manufacturing processes to produce sales orders and maximize production efficiency.
+An effective manufacturing schedule is critical to manufacturing operations because it improves throughput, reduces changeovers, reduces machine downtime, improves resource utilization, increases due date adherence, and minimizes the scheduling time itself.
+
 
