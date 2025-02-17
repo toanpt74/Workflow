@@ -162,6 +162,46 @@ D. Điện áp trên A và B khác nhau thì đầu ra cổng XOR không xác đ
 Đúng, đáp án đúng là: Đầu ra C nhận giá trị bằng 1 khi hai đầu vào A, B có mức điện áp khác nhau
 Vì theo tính chất của cổng XOR nếu A=0, B=1 thì C=1, hoặc A=1, B=0 thì C=1.
 
+Câu 9: Khẳng định nào đúng về hàm logic
+A. Hàm logic là hàm có thể có 1 hoặc nhiều đối số, các đối số là biến logic và kết quả của hàm cũng là một giá trị logic
+B. Hàm logic là hàm có thể có 1 hoặc nhiều đối số, các đối số thuộc tập số nguyên và hàm trả về một giá trị logic
+C. Hàm logic là hàm có thể có 1 hoặc nhiều đối số, các đối số thuộc tập số thực và hàm trả về một giá trị logic
+D. Hàm logic là hàm có thể có 1 hoặc nhiều đối số, các đối số là biến logic và hàm trả về một giá trị thuộc kiểu số nguyên
+Đúng, đáp án đúng là: Hàm logic là hàm có thể có 1 hoặc nhiều đối số, các đối số là biến logic và kết quả của hàm cũng là một giá trị logic
+Vì theo định nghĩa của hàm logic
+Câu 10: Xét B = {0, 1} và một hàm logic f = f(Xn, Xn-1,...,X1). Khẳng định nào đúng?
+A. Xi thuộc B với mọi i và f thuộc B
+B. f thuộc B
+C. Xi thuộc B với mọi i
+D. Tồn tại ít nhất một Xi thuộc B và f thuộc B
+Đúng, đáp án đúng là: Xi thuộc B với mọi i và f thuộc B
+Vì theo định nghĩa hàm logic
+
+---------------------------------------
+CÂU HỎI: TB
+--------------------------------------------
+Câu 1: Xét biến logic X và các hàm f0, f1, f2, f3 như bảng sau:
+x  f0  f1  f2  f4
+0  0    0  1  1
+1  0    1  0  1    
+Khẳng định nào đúng
+A. f2 là đảo của X
+B. f2 là đảo của f1
+C. f1 là đảo của f2
+D. f0 là đảo của f1
+Đúng, đáp án đúng là: f2 là đảo của X
+Vì khi x = 0 thì f2 = 1 và khi x=1 thì f2 = 0
+Câu 2: Xét biến logic X và các hàm f0, f1, f2, f3 như bảng sau:
+x  f0  f1  f2  f4
+0  0    0  1  1
+1  0    1  0  1    
+Khẳng định nào đúng
+A. f1 = x
+B. f2 = x
+C. f3 = x
+D. f4 = x
+Đúng, đáp án đúng là: f1 = x
+Vì khi x = 0 thì f1 = 0 và khi x=1 thì f1 = 1
 
 
 
