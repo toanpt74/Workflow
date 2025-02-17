@@ -95,6 +95,78 @@ C. Intel 80286, IBM Power4 và Athlon 64X2
 D. IBM Power4, Intel Pentium II, và Intel 80286
 Đúng, đáp án đúng là: IBM Power4, UltraSPARS IV và Athlon 64X2
 Vì theo tính chất của các bộ vi xử lý
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+BÀI 2
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Dễ:
+------------------------------------------------------------------------------------
+Câu 1: Đầu ra của các cổng AND trong máy tính thường trả về bao nhiêu giá trị?
+A. 1
+B. 2
+C. 3
+D. 4
+Đúng, đáp án đúng là: 1
+Vì cổng logic AND trong máy tính chỉ trả về giá trị 0 hoặc 1.
+Câu 2: Xét cổng AND với hai đầu vào là A và B. Giả sử đầu vào A nhận giá trị 1 và đầu vào B nhận giá trị 0. Khi đó đầu ra của cổng AND có giá trị bằng bao nhiêu?
+A. 0
+B. 1
+C. 2
+D. Không xác định
+Đúng, đáp án đúng là: 0
+Vì theo tính chất của cổng AND.
+Câu 3:
+Xét cổng OR với hai đầu vào là A và B. Giả sử đầu vào A nhận giá trị 1 và đầu vào B nhận giá trị 0. Khi đó đầu ra của cổng OR có giá trị bằng bao nhiêu?
+A. 0
+B. 1
+C. 2
+D. Không xác định
+Đúng, đáp án đúng là: 1
+Vì theo tính chất của cổng OR.
+
+Câu 4: Xét cổng NAND với hai đầu vào A, B, đầu ra C. Biết rằng C nhận giá trị 1. Khẳng định nào KHÔNG đúng
+A. A=1, B=1
+B. A=1, B=0
+C. A=0, B=0
+D. A=0, B=1
+Đúng, đáp án đúng là: A=1, B=1
+Vì theo tính chất của cổng NAND thì khi A=1, B=1, đầu ra C = 0.
+Câu 5: Xét cổng NAND với hai đầu vào A, B, đầu ra C. Biết rằng C nhận giá trị 0. Khẳng định nào đúng
+A. A=1, B=1
+B. A=1, B=0
+C. A=0, B=0
+D. A=0, B=1
+Đúng, đáp án đúng là: A=1, B=1
+Vì theo tính chất của cổng NAND thì khi A=1, B=1, đầu ra C = 0.
+Câu 6: Xét cổng NOR với hai đầu vào A, B, đầu ra C. Biết rằng C nhận giá trị 0. Khẳng định nào KHÔNG đúng
+A. A=0, B=0
+B. A=1, B=0
+C. A=0, B=0
+D. A=0, B=1
+Đúng, đáp án đúng là: A=0, B=0
+Vì theo tính chất của cổng NOR thì khi A=0, B=0, đầu ra C = 1.
+
+Câu 7: Xét cổng NOR với hai đầu vào A, B, đầu ra C. Biết rằng C nhận giá trị 1. Khẳng định nào đúng
+A. A=0, B=0
+B. A=1, B=0
+C. A=0, B=0
+D. A=0, B=1
+Đúng, đáp án đúng là: A=0, B=0
+Vì theo tính chất của cổng NOR thì khi A=0, B=0, đầu ra C = 1.
+
+Câu 8: Xét cổng logic XOR với hai đầu vào là A và B, đầu ra là C. Khẳng định nào đúng
+A. Đầu ra C nhận giá trị bằng 1 khi hai đầu vào A, B có mức điện áp khác nhau
+B. Đầu ra C nhận giá trị bằng 0 khi hai đầu vào A, B có mức điện áp khác nhau
+C. Đầu ra C nhận giá trị bằng 1 khi hai đầu vào A, B có mức điện áp bằng nhau
+D. Điện áp trên A và B khác nhau thì đầu ra cổng XOR không xác định
+Đúng, đáp án đúng là: Đầu ra C nhận giá trị bằng 1 khi hai đầu vào A, B có mức điện áp khác nhau
+Vì theo tính chất của cổng XOR nếu A=0, B=1 thì C=1, hoặc A=1, B=0 thì C=1.
+
+
+
+
+
+
 
 
 
