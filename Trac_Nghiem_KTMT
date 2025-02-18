@@ -203,6 +203,70 @@ D. f4 = x
 Đúng, đáp án đúng là: f1 = x
 Vì khi x = 0 thì f1 = 0 và khi x=1 thì f1 = 1
 
+Câu 3: Xét biến logic X và các hàm f0, f1, f2, f3 như bảng sau:
+x  f0  f1  f2  f4
+0  0    0  1  1
+1  0    1  0  1    
+Khẳng định nào đúng?
+A. f0 là đảo của f4
+B. f2 = x
+C. f2 là đảo của f4
+D. f4 = X
+Đúng, đáp án đúng là: f0 là đảo của f4
+Vì khi f0 nhận giá trị 0 thì f4 nhận giá trị là 1.
+Câu 4: Khẳng định nào đúng về chuẩn tắc tuyển của một hàm logic n biến
+A. Chuẩn tắc tuyển là tổng của nhiều thành phần, trong đó mỗi thành phần là tích của đầy đủ n biến
+B. Chuẩn tắc tuyển là tích của nhiều thành phần, trong đó mỗi thành phần là tổng của đầy đủ n biến
+C. Chuẩn tắc tuyển là tổng của nhiều thành phần, trong đó mỗi thành phần là tổng của đầy đủ n biến 
+D. Chuẩn tắc tuyển là tích của nhiều thành phần, mỗi thành phần là tích của đầy đủ n biến
+Đúng, đáp án đúng là: Chuẩn tắc tuyển là tổng của nhiều thành phần, trong đó mỗi thành phần là tích của đầy đủ n biến
+Vì theo định nghĩa của dạng chuẩn tắc tuyển
+Câu 5: Khẳng định nào đúng về chuẩn tắc hội của một hàm logic n biến
+A. Chuẩn tắc hội là tích của nhiều thành phần, trong đó mỗi thành phần là tổng của đầy đủ n biến
+
+B. Chuẩn tắc hội là tổng của nhiều thành phần, trong đó mỗi thành phần là tích của đầy đủ n biến
+C. Chuẩn tắc hội là tổng của nhiều thành phần, trong đó mỗi thành phần là tổng của đầy đủ n biến 
+D. Chuẩn tắc hội là tích của nhiều thành phần, mỗi thành phần là tích của đầy đủ n biến
+Đúng, đáp án đúng là: Chuẩn tắc hội là tích của nhiều thành phần, trong đó mỗi thành phần là tổng của đầy đủ n biến
+Vì theo định nghĩa của dạng chuẩn tắc hội
+Câu 6: Khẳng định nào đúng về chuẩn tắc tuyển và chuẩn tắc hội của hàm logic gồm n biến số
+A. Chuẩn tắc tuyển chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 1 và chuẩn tắc hội chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 0.
+B. Chuẩn tắc tuyển chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 0 và chuẩn tắc hội chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 0.
+C. Chuẩn tắc tuyển chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 1 và chuẩn tắc hội chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 1.
+D. Chuẩn tắc tuyển chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 0 và chuẩn tắc hội chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 1.
+Đúng, đáp án đúng là: Chuẩn tắc tuyển chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 1 và chuẩn tắc hội chỉ quan tâm đến các tổ hợp biến mà tại đó hàm có giá trị là 0
+Vì theo định nghĩa của chuẩn tắc tuyển và chuẩn tắc hội
+Câu 7: Giả sử X, Y là hai biến logic. Khẳng định nào đúng?
+A. X + 0 = X và X.1 = X
+B. X + 1 = X và X.0 = X
+C. X. X = 1
+D. X + X = 0
+Đúng, đáp án đúng là: A. X + 0 = X và X.1 = X
+Vì theo tính chất của các mệnh đề logic
+
+Câu 8: Giả sử X, Y là hai biến logic. Khẳng định nào đúng?
+A. X + X.Y = X
+B. X + X.Y = Y
+C. X + X.Y = 1
+D. X + X.Y = 0
+Đúng, đáp án đúng là: X + X.Y = X
+Vì theo tính chất của các mệnh đề logic
+
+Câu 9: Giả sử X, Y là hai biến logic. Khẳng định nào đúng?
+A. X.(X + Y) = X
+B. X + X.Y = Y
+C. X.(X + Y) = Y
+D. X + X.Y = 0
+Đúng, đáp án đúng là: X.(X + Y) = X
+Vì theo tính chất của các mệnh đề logic
+
+Câu 10: Giả sử X, Y là hai biến logic. Khẳng định nào đúng?
+A. (X+Y).(X+0) = X
+B. (X+Y).(X+1) = X
+C. X + X.Y = 0
+D. (X + Y).(X + 0) = 1
+Đúng, đáp án đúng là: (X+Y).(X+0) = X
+Vì theo tính chất của các mệnh đề logic
 
 
 
