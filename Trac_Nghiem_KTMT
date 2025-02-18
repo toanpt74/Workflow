@@ -267,6 +267,35 @@ C. X + X.Y = 0
 D. (X + Y).(X + 0) = 1
 Đúng, đáp án đúng là: (X+Y).(X+0) = X
 Vì theo tính chất của các mệnh đề logic
+-------------------------------------
+KHÓ
+-------------------------------------------------
+Câu 1: Cho hàm logic f = A'.X + A.X + A.X'. Hàm f tương đương với hàm nào sau đây?
+A. g = X + A
+B. g = X.A
+C. g = X + A'
+D. g = X.A'
+Đúng, đáp án đúng là: g = X + A
+Vì A'.X + A.X + A.X' = (A'.X + A.X) + (A.X + A.X') = X + A.X' = X.(A'+A) + A.(X'+X) = X + A
+Câu 2: Cho hàm logic f = A.B. Hàm nào sau đây là hàm bù của f
+A. g = A' + B'
+B. g = A'.B
+C. g = A' + B
+D. g = A + B
+Đúng, đáp án đúng là: g = A' + B'
+Vì ta có (A' + B').(A.B) = A'.A.B + B'.A.B = 0 + 0 = 0.
+Đồng thời có (A'+B') + A.B = 1.
+Câu 3: Cho hàm logic f = x.y.z + x.y.z'+x'.y'.z. Hàm nào sau đây tương đương với hàm f?
+A. g = x.y + x'.y'.z
+B. g = x.y
+C. g = x'.y'.z
+D. g = x.y' + x'.y.z
+Đúng, đáp án đúng là: g = x.y + x'.y'.z
+Vì x.y.z + x.y.z'+x'.y'.z = x.y.(z + z') + x'.y'.z = x.y + x'.y'.z
+
+
+
+
 
 
 
