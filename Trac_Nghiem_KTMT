@@ -292,10 +292,24 @@ C. g = x'.y'.z
 D. g = x.y' + x'.y.z
 Đúng, đáp án đúng là: g = x.y + x'.y'.z
 Vì x.y.z + x.y.z'+x'.y'.z = x.y.(z + z') + x'.y'.z = x.y + x'.y'.z
+Câu 4: Cho hàm logic f = x.y'.z + x.y'.z' + x'.y.z + x'.y'.z + x'.y'.z'. Hàm nào sau đây tương đương với hàm f.
+A. g = y' + x'.z
+B. g = y + x'.z
+C. g = x.y + x'.z
+D. g = x.y.z + x.z'
+Đúng, đáp án đúng là: g = y' + x'.z
+Vì sử dụng phương pháp tối ưu hàm logic bằng bìa karnaugh ta có kết quả f = y' + x'.z
+Câu 5: Cho hàm logic f = x..y.z'+ x.y'.z' + x'.y.z + x'.y'.z'. Hàm nào sau đây tương đương với hàm f.
+A. g = x.z' + y'.z' + x'.y.z
+B. g = y + x'.z
+C. g = x.y + x'.z
+D. g = x.y.z + x.z'
+Đúng, đáp án đúng là: g = y' + x'.z
+Vì sử dụng phương pháp tối ưu hàm logic bằng bìa karnaugh ta có kết quả f = x.z' + y'.z' + x'.y.z
 
+(https://dangcnd.wordpress.com/wp-content/uploads/2009/08/tudc1.pdf )
 
-
-
+/////////////////////////////////////////////////////////////////
 
 
 
