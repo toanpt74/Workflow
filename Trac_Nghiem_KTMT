@@ -397,8 +397,21 @@ Vì theo định nghĩa số bù 1
 ----------------------------------------------------------------------
 TB:
 --------------------------------------------------------------------------
-Câu 1: 
-
+Câu 1: Trong phương pháp phát hiện lỗi theo mã chẵn lẻ chẵn (even parity), khi nào thì bit chẵn lẻ được thêm vào dữ liệu và là bit 1?
+A. Khi tổng số bit 1 là số lẻ 
+B. Khi tổng số bit 0 là số lẻ
+C. Khi tổng số bit 1 là số chẵn
+D. Khi tổng số bit 0 là số chẵn
+Đúng, đáp án đúng là: Khi tổng số bit 1 là số lẻ 
+Vì theo phương pháp even parity thì bit chẵn lẻ được thêm vào sao cho tổng số bit 1 là số chẵn
+Câu 2: Trong phương pháp phát hiện lỗi theo mã chẵn lẻ chẵn (odd parity), khi nào thì bit chẵn lẻ được thêm vào dữ liệu và là bit 1?
+A. Khi tổng số bit 1 là số chẵn 
+B. Khi tổng số bit 0 là số lẻ
+C. Khi tổng số bit 1 là số lẻ
+D. Khi tổng số bit 0 là số chẵn
+Đúng, đáp án đúng là: Khi tổng số bit 1 là số chẵn 
+Vì theo phương pháp odd parity thì bit chẵn lẻ được thêm vào sao cho tổng số bit 1 là số lẻ
+Câu 3: Giả sử chúng ta truyền một dãy bit là: 0110 1000 0001 1110. Bit chẵn lẻ được thêm vào là 1.
 
 
 https://www.mvtec.com/company/research/datasets/mvtec-ad/downloads
