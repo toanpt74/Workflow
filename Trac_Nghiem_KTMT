@@ -316,6 +316,90 @@ BÀI 3
 DỄ
 ------------------------------------------------------------------
 Câu 1: 
+Giả sử chúng ta cần mã hóa N trạng thái, khi đó lượng thông tin I được định nghĩa bởi công thức nào?
+A. I = log2(N)
+B. I = log10(N)
+C. I = 2^N
+D. I = log2(2*N)
+Đúng, đáp án đúng là: I = log2(N)
+Vì theo định nghĩa lượng thông tin
+Câu 2: Hệ đếm nhị phân sử dụng bao nhiêu kí hiệu để biểu diễn các con số?
+A. 2
+B. 8
+C. 16
+D. 4
+Đúng, đáp án đúng là: 2
+Vì theo khái niệm hệ đếm nhị phân
+Câu 3: Hệ đếm thập lục phân (hexadecimal) sử dụng bao nhiêu kí hiệu để biểu diễn các con số?
+A. 16
+B. 8
+C. 2
+D. 10
+Đúng, đáp án đúng là: 16
+Vì theo khái niệm của hệ đếm hexa
+Câu 4: Most Significant Bit (MSB) là bit nào trong một số nhị phân?
+A. Bit nằm ở vị trí cuối cùng bên trái
+B. Bit nằm ở vị trí giữa
+C. Bit nawmg ở vị trí cuối cùng bên phải
+D. Bit nằm ở vị trí bất kỳ
+Đúng, đáp án đúng là: Bit nằm ở vị trí cuối cùng bên trái
+Vì theo khái niệm của bit MSB
+Câu 5: Least Significant Bit (LSB) là bit nào trong một số nhị phân?
+A. Bit nawmg ở vị trí cuối cùng bên phải
+B. Bit nằm ở vị trí giữa
+C. Bit nằm ở vị trí cuối cùng bên trái
+D. Bit nằm ở vị trí bất kỳ
+Đúng, đáp án đúng là: Bit nằm ở vị trí cuối cùng bên phải
+Vì theo khái niệm của bit LSB
+Câu 6: Bảng mã ASCII được mã hóa bằng bao nhiêu bit
+A. 8
+B. 10
+C. 16
+D. 32
+Đúng, đáp án đúng là: 8
+Vì theo khái niệm về bảng mã ASCII, bảng mã này gồm 256 kí tự và được mã hóa bởi 8 bit
+Câu 7: Trong bảng mã ASCII, kí tự 'A' có mã như thế nào?
+A. 0100 0001
+B. 0100 0011
+C. 0100 0010
+D. 0110 0001
+Đúng, đáp án đúng là: 0100 0001
+Vì trong bảng mã ASCII kí tự 'A' có mã là 65 ở hệ thập phân và mã 0100 0001 ở hệ nhị phân
+Câu 9:Trong bảng mã ASCII, kí tự 'B' có mã như thế nào?
+A. 0100 0010
+B. 0100 0011
+C. 0100 0010
+D. 0110 0001
+Đúng, đáp án đúng là: 0100 0010
+Vì trong bảng mã ASCII kí tự 'A' có mã là 66 ở hệ thập phân và mã 0100 0010 ở hệ nhị phân
+Câu 10: Nếu sử dụng 10 bit để mã hóa cho số nguyên không dấu thì có thể biểu diễn được các số nguyên trong đoạn nào?
+A. Từ 0 đến 1023
+B. Từ 1 đến 1024
+C. Từ -512 đến + 512
+D. Từ -1024 đến + 1024
+Đúng, đáp án đúng là: Từ 0 đến 1023
+Vì một số nhị phân n bit sẽ biểu diễn được 2^n số nguyên không dấu có giá trị 0 – 2^n -1
+Câu 11: Số bù 2 của một số nhị phân là gì?
+A. Phép biến đổi số nhị phân bằng cách đảo tất cả các bit và cộng thêm 1 vào kết quả
+B. Phép biến đổi số nhị phân bằng cách đảo tất cả các bit
+C. Phép biến đổi số nhị phân bằng cách giữ nguyên số đầu tiên và đảo các số còn lại
+D. Phép biến đổi số nhị phân bằng cách đảo tất cả các bit và trừ 1 vào kết quả
+Đúng, đáp án đúng là: Phép biến đổi số nhị phân bằng cách đảo tất cả các bit và cộng thêm 1 vào kết quả
+Vì theo định nghĩa số bù 2
+
+Câu 11: Số bù 1 của một số nhị phân là gì?
+A. Phép biến đổi số nhị phân bằng cách đảo tất cả các bit
+B. Phép biến đổi số nhị phân bằng cách đảo tất cả các bit và cộng thêm 1 vào kết quả
+C. Phép biến đổi số nhị phân bằng cách giữ nguyên số đầu tiên và đảo các số còn lại
+D. Phép biến đổi số nhị phân bằng cách đảo tất cả các bit và trừ 1 vào kết quả
+Đúng, đáp án đúng là: Phép biến đổi số nhị phân bằng cách đảo tất cả các bit
+Vì theo định nghĩa số bù 1
+----------------------------------------------------------------------
+TB:
+--------------------------------------------------------------------------
+Câu 1: 
+
+
 
 https://www.mvtec.com/company/research/datasets/mvtec-ad/downloads
 
