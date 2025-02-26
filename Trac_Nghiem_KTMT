@@ -411,7 +411,20 @@ C. Khi tổng số bit 1 là số lẻ
 D. Khi tổng số bit 0 là số chẵn
 Đúng, đáp án đúng là: Khi tổng số bit 1 là số chẵn 
 Vì theo phương pháp odd parity thì bit chẵn lẻ được thêm vào sao cho tổng số bit 1 là số lẻ
-Câu 3: Giả sử chúng ta truyền một dãy bit là: 0110 1000 0001 1110. Bit chẵn lẻ được thêm vào là 1.
+Câu 3: Giả sử chúng ta truyền một dãy bit là: 0110 1000 0001 1110. Phương pháp kiểm tra là even parity và bit chẵn lẻ được thêm vào là 1. Khẳng định nào đúng
+A. Bit chẵn lẻ đã được thêm theo đúng phương pháp even parity
+B. Bit chẵn lẻ thêm vào phải là bit 0
+C. Dãy bit nhận được đang bị lỗi ở một bit bất kỳ
+D. Dãy bit nhận được đang bị lỗi ở bit số 2.
+Đúng, đáp án đúng là: Bit chẵn lẻ đã được thêm theo đúng phương pháp even parity
+Vì, theo định nghĩa của phương pháp mã chẵn lẻ
+Câu 4: Giả sử chúng ta truyền một dãy bit là: 0110 1000 0001 1110. Phương pháp kiểm tra là odd parity và bit chẵn lẻ được thêm vào là 1. Khẳng định nào đúng
+A. Bit chẵn lẻ thêm vào phải là bit 0
+B. Bit chẵn lẻ được thêm vào một cách chính xác
+C. Dãy bit nhận được đang bị lỗi ở một bit bất kỳ
+D. Dãy bit nhận được đang bị lỗi ở bit số 2.
+Đúng, đáp án đúng là: Bit chẵn lẻ thêm vào phải là bit 0
+Vì, theo định nghĩa của phương pháp mã chẵn lẻ
 
 
 https://www.mvtec.com/company/research/datasets/mvtec-ad/downloads
