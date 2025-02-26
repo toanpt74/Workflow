@@ -420,12 +420,18 @@ D. Dãy bit nhận được đang bị lỗi ở bit số 2.
 Vì, theo định nghĩa của phương pháp mã chẵn lẻ
 Câu 4: Giả sử chúng ta truyền một dãy bit là: 0110 1000 0001 1110. Phương pháp kiểm tra là odd parity và bit chẵn lẻ được thêm vào là 1. Khẳng định nào đúng
 A. Bit chẵn lẻ thêm vào phải là bit 0
-B. Bit chẵn lẻ được thêm vào một cách chính xác
+B. Bit chẵn lẻ đã được thêm theo đúng phương pháp odd parity
 C. Dãy bit nhận được đang bị lỗi ở một bit bất kỳ
-D. Dãy bit nhận được đang bị lỗi ở bit số 2.
+D. Dãy bit nhận được đang bị lỗi ở bit số 1.
 Đúng, đáp án đúng là: Bit chẵn lẻ thêm vào phải là bit 0
 Vì, theo định nghĩa của phương pháp mã chẵn lẻ
 
+Câu 5: Khi sử dụng phương pháp kiểm tra mã chẵn lẻ theo khối với bit chắn lẻ theo chiều dọc là VRC và theo chiều ngang là LRC. Khẳng định nào đúng?
+A. Phát hiện lỗi bằng cách sử dụng kết hợp cả bit VRC và LRC
+B. Chỉ sử dụng bit VRC để phát hiện lỗi
+C. Chỉ sử dụng bit LRC để phát hiện lỗi
+D. Chỉ kiểm tra từng bit riêng lẻ trong khối dữ liệu
+Câu 6: 
 
 https://www.mvtec.com/company/research/datasets/mvtec-ad/downloads
 
