@@ -431,7 +431,39 @@ A. Phát hiện lỗi bằng cách sử dụng kết hợp cả bit VRC và LRC
 B. Chỉ sử dụng bit VRC để phát hiện lỗi
 C. Chỉ sử dụng bit LRC để phát hiện lỗi
 D. Chỉ kiểm tra từng bit riêng lẻ trong khối dữ liệu
-Câu 6: 
+Đúng, đáp án đúng là: Phát hiện lỗi bằng cách sử dụng kết hợp cả bit VRC và LRC
+Vì theo phương pháp mã chẵn lẻ theo khối
+Câu 6: Theo phương pháp mã Hamming, khi sử dụng 10 bit chẵn lẻ, số bit dữ liệu kiểm tra được sẽ bằng bao nhiêu?
+A. 1023
+B. 1024
+C. 512
+D. 127
+Đúng, đáp án đúng là: 1023.
+Vì theo phương pháp mã Hamming, nếu sử dụng n bit chẵn lẻ thì sẽ kiểm tra được 1^n -1 bit dữ liệu
+Câu 7: Giả sử ta cần truyền dãy bit là M = 1101100111. Nếu sử dụng phương pháp mã Hamming thì cần ít nhất là bao nhiêu bit chẵn lẻ?
+A. 4
+B. 3
+C. 5
+D. 2
+Vì theo phương pháp mã Hamming, nếu sử dụng n bit chẵn lẻ thì sẽ kiểm tra được 1^n -1 bit dữ liệu. Bản tin M có 10 bit dữ liệu do vậy chúng ta cần phải có ít nhất 4 bit chẵn lẻ => kiểm tra được 16 bit dữ liệu
+
+Câu 8: Biểu diễn của số -7 ở dạng số bù 2 với độ dài 8 bit là gì?
+A. 11111001
+B. 11111000
+C. 00000111
+D. 11111111
+Đúng, đáp án đúng là: 11111001
+Vì số 7 trong hệ nhị phân là: 00000111 => số bù 1 của số 7 là: 11111000, số bù 2 là: 11111000 + 1 = 11111001
+
+Câu 9: Giả sử chúng ta sử dụng 4 bit để biểu diễn số nhị phân và có hai số nhị phân A = 1001, B = 1010. Kết quả phép A + B là bao nhiêu?
+A. 0011
+B. 10011
+C. 1011
+D. 0111
+Đúng, đáp án đúng là: 0011
+Vì khi công hai số 1001 và 1010, kết quả là 10011, tuy nhiên chúng ta chỉ sử dụng 4 bit để lưu kết quả, do vậy A + B = 0011
+
+
 
 https://www.mvtec.com/company/research/datasets/mvtec-ad/downloads
 
