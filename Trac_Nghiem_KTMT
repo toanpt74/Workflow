@@ -462,7 +462,48 @@ C. 1011
 D. 0111
 Đúng, đáp án đúng là: 0011
 Vì khi công hai số 1001 và 1010, kết quả là 10011, tuy nhiên chúng ta chỉ sử dụng 4 bit để lưu kết quả, do vậy A + B = 0011
+Câu 10: Giả sử chúng ta sử dụng 4 bit để biểu diễn số nhị phân, có hai số là A = 0101, B = 0011. Kết quả nhân hai số nhị phân A.B bằng bao nhiêu?
+A. 1111
+B. 11111
+C. 0111
+D. 1011
+Đúng, đáp án đúng là: 1111
+Vì theo kết quả của phép nhân
 
+------------------------------------------------------------------------------
+KHÓ
+------------------------------------------------------------------------------
+Câu 1: Khi dùng phương pháp biểu diễn số nhị phân có dấu bằng phương pháp số bù 2 thì phép cộng 2 số nhị phân 1110 1111 với 1100 0111 sẽ được kết quả là số nào qui ra hệ 10?
+A. -74
+B. -76
+C. 128
+D. 78
+Đúng, đáp án đúng là: -74
+Vì số nhị phân 1110 1111 là số âm, số bù 2 của số này là: 00010001, và số 1100 0111 là số âm do vậy số bù 2 của nó là: 00111001. Tổng của hai số dương: 00010001 + 00111001 =0100 1010. Lấy bù hai của số này kết quả 
+là: 1011 0110 = -74 (hệ 10)
+Câu 2: Khi dùng phương pháp biểu diễn số nhị phân có dấu bằng phương pháp số bù 2 thì phép cộng 2 số nhị phân 0110 1111 với 1100 0111 sẽ được kết quả là số nào qui ra hệ 10?
+A. 54
+B. -74
+C. -86
+D. 100
+Đúng, đáp án đúng là: 54
+Vì số 0110 1111 là số dương và bằng 111 (hệ 10) và số 1100 0111 là số âm và bằng -57 (hệ 10). Do vậy kết quả là 111 - 57 = 54 (hệ 10)
+Câu 3: Giả sử cần truyền 10 bit dữ liệu 1101100111. Theo phương pháp mã Hamming, chuỗi bit chẵn lẻ cần thêm vào là gì?
+A. C8 = 0, C4 = 0, C2 =1, C1 = 0
+B. C8 = 0, C4 = 0, C2 =1, C1 = 1
+C. C8 = 0, C4 = 0, C2 =0, C1 = 1
+D. C8 = 1, C4 = 0, C2 =1, C1 = 0
+Đúng, đáp án đúng là: C8 = 0, C4 = 0, C2 =1, C1 = 0
+Vì theo phương pháp mã Hamming các bit cần thêm vào là C1, C2, C4, C8 => Chuỗi bit truyền cùng với các bit chẵn lẻ là: 110110C8011C41C2C1
+Cộng modul 2 tất cả các số ở vị trí khác 0 ta có kết quả là: C8 = 0, C4 = 0, C2 =1, C1 = 0
+Câu 4: Giả sử cần truyền 10 bit dữ liệu 0110 0011. Theo phương pháp mã Hamming, chuỗi bit chẵn lẻ cần thêm vào là gì?
+A. C4=1, C2=0, C1=1
+B. C4=1, C2=0, C1=0
+C. C4=0, C2=0, C1=1
+D. C4=1, C2=0, C1=1
+Đúng, đáp án đúng là: C4=1, C2=0, C1=1
+Vì theo phương pháp mã Hamming các bit cần thêm vào là C1, C2, C4 => Chuỗi bit truyền cùng với các bit chẵn lẻ là: 0110 001C41C2C1
+Cộng modul 2 tất cả các số ở vị trí khác 0 ta có kết quả là: C4=1, C2=0, C1=1
 
 
 https://www.mvtec.com/company/research/datasets/mvtec-ad/downloads
