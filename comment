@@ -54,7 +54,19 @@ for model, dataloader in zip(all_model, all_dataloader):
                                                              greedy_test=greedy_test)
     print(average_makespan, average_time)
 #Để lây thông tin về makespan của toàn bộ các job trong chương trình, thêm lệnh print(all_data_store) vào cuối tệp tin sample_average_makespan
+////////////////////
+1.
+adj_mat: là ma trận kề lưu trữ thông tin về các job. 
 
+ + Mỗi hàng là một job
+
+ + Các vị trí bằng 1 chính là đánh dấu các job successor
+
+ + Ví dụ hàng 0 trong adj_mat = [0,1,1,1,0,0,0,....]: job này có 3 job con là 1, 2, 3. (Trong tệp text thì successor là: 2,3,4 -> cần lùi một chỉ số, do ma trận từ 0)
+
+ + Hàng 1 trong adj_mat là: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+  => Vậy job này có các job con là: 5, 10, 14(Trong tệp tin text successor là: 6, 11, 15)
 ///////////////////////////////////////////////////////////////////
 feature_mat: là ma trận lưu trữ các thông tin về duration và resource của các job
 
