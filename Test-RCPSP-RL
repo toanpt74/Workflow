@@ -1,0 +1,203 @@
+import java.util.ArrayList;
+
+import java.util.List;
+
+import java.util.PriorityQueue;
+
+import java.util.*;
+
+
+
+
+
+class Node{
+
+        int info;
+
+        int freq;
+
+        Node left, right;
+
+        public Node(int info, int freq){
+
+                this.info = info;
+
+                this.freq = freq;
+
+                left = right = null;
+
+        }
+
+}
+
+class ArrayListComparator implements Comparator<Node>{
+
+        public int compare(Node e1, Node e2){
+
+                if(e1.freq == e2.freq) return 0;
+
+                else if(e1.freq < e2.freq) return -1;
+
+                else return 1;
+
+        }
+
+}
+
+/*
+
+        Thuật toán Huffman: xây dựng cây mã hóa theo tần suất xuất hiện các kí tự trong văn bản
+
+        1. Thống kê các từ trong văn bản theo tần suất
+
+        2. Sắp xếp theo chiều tăng dần của tần suất
+
+        3. Ghép các nhánh theo tần suất vào cây
+
+*/
+
+class Huffman
+
+{
+
+        String document;
+
+        List<Node> tree = new ArrayList<>(); //Chứa danh sách các từ cùng với tần suất
+
+        public Huffman(){
+
+                document = "AABAACAADAABAAABAAXYYXZTCBDE";
+
+        }
+
+        public void calFreq()
+
+        {
+
+                List<Integer> freqs = new ArrayList();
+
+                for(int i=0; i<document.length();i++){
+
+                        int ch =(int)document.charAt(i);
+
+                        if(!freqs.contains(ch)) freqs.add(ch);
+
+                }
+
+                for(int i=0; i<freqs.size(); i++)
+
+                {
+
+                        int ts =0;
+
+                        int ma = (int)freqs.get(i);
+
+                        for(int j =0; j< document.length(); j++)
+
+                        {
+
+                                int ch = (int)document.charAt(j);
+
+                                if(ma == ch) ts++;
+
+                        }
+
+                        Node e = new Node(ma, ts);
+
+                        tree.add(e);                         
+
+                }
+
+                
+
+                /*for(int i=0; i<tree.size(); i++){
+
+                        Node e = tree.get(i);
+
+                        System.out.println((char)e.info + ":" + e.freq);
+
+                }*/
+
+        }
+
+        public void inHuffmanCode(Node root, String ma)
+
+        {
+
+                if(root.left==null && root.right==null){
+
+                        System.out.print((char)root.info +":" + ma);
+
+                }
+
+                if(root.left!=null)
+
+                        inHuffmanCode(root.left, ma + "0");
+
+                if(root.right!=null)
+
+                        inHuffmanCode(root.right, ma + "1");
+
+                System.out.println();
+
+        }
+
+        public void HuffmaEncoding(){
+
+                //Tính vector tần suất xuất hiện các từ trong document
+
+                calFreq();
+
+                while(tree.size()>1)
+
+                {
+
+                        Collections.sort(tree,new ArrayListComparator());
+
+                        Node left = tree.remove(0);
+
+                        Node right = tree.remove(0);
+
+                        Node parent = new Node('\0', left.freq + right.freq);
+
+                        parent.left = left;
+
+                        parent.right= right;
+
+                        tree.add(parent);
+
+                }
+
+                System.out.println("Mã Huffman của các kí tự:");
+
+                Node root = tree.get(0);
+
+                inHuffmanCode(root,"");
+
+        }
+
+        
+
+}
+
+
+
+public class Main {
+
+  public static void main(String[] args) {
+
+    System.out.println("Huffman Algorithm Example");         
+
+        
+
+        Huffman h = new Huffman();
+
+        h.HuffmaEncoding(); 
+
+        
+
+         
+
+  }
+
+}
